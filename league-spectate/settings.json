@@ -1,0 +1,180 @@
+{
+    "obs_path": "C:/Program Files/obs-studio/bin/64bit/obs64.exe",
+    "obs_host": "localhost",
+    "obs_port": 4455,
+    "obs_password": "qbc3A3Oap9RIUynA",
+    "riot_api_key": "RGAPI-992e88a3-f130-4b0b-b904-e0c67b07cafe",
+    "league_path": "D:/League Of Legends/Riot Games/League of Legends/Game",
+    "players": {
+        "keia#shy": {
+            "summoner_id": "keia#shy",
+            "stream_key": "123",
+            "channel_name": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "yaSS0keuk6oY8O-k7Ic-4r6IkfwAZfJ9DNfS3IGNsRp_VUA",
+                    "accountId": "r7SbOr1JXEqIWM1_vpHUYDSuYk8E-Qy24_3UyhZBYljHYg",
+                    "puuid": "1-xavlb1RJxERWfMTGEMOSyfvbkQlPuOxpPqfxIyMxi1y9HDcr9h4EMmoEOsMLRww4MD4vngB2PlEQ",
+                    "profileIconId": 7,
+                    "revisionDate": 1741139409460,
+                    "summonerLevel": 1149,
+                    "riotId": {
+                        "gameName": "keia",
+                        "tagLine": "shy",
+                        "puuid": "1-xavlb1RJxERWfMTGEMOSyfvbkQlPuOxpPqfxIyMxi1y9HDcr9h4EMmoEOsMLRww4MD4vngB2PlEQ"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 983,
+                    "wins": 117,
+                    "losses": 91
+                },
+                "riotId": {
+                    "gameName": "keia",
+                    "tagLine": "shy",
+                    "region": "euw1"
+                }
+            }
+        },
+        "FNC Upset#0308": {
+            "summoner_id": "FNC Upset#0308",
+            "stream_key": "123",
+            "channel_name": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "E3vDMAhL168NeAuhOeoNYySrWYVTS9zOKbNrleEUDTtfdRh19WZ3mtbf-A",
+                    "accountId": "8ATiVQ-GvuIOEdaYAjNE8XJiZESnbbUyX5WPYn2MguEtsVw5Ncly1TO-",
+                    "puuid": "k240jlrImRc_weMorkvGWtyX-H5eAsnHSJN-EUqqV6-WGPMy6CshMBKPWVnfN3NwGaTjLnIJBsF24g",
+                    "profileIconId": 29,
+                    "revisionDate": 1741181082328,
+                    "summonerLevel": 57,
+                    "riotId": {
+                        "gameName": "FNC Upset",
+                        "tagLine": "0308",
+                        "puuid": "k240jlrImRc_weMorkvGWtyX-H5eAsnHSJN-EUqqV6-WGPMy6CshMBKPWVnfN3NwGaTjLnIJBsF24g"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1457,
+                    "wins": 166,
+                    "losses": 111
+                },
+                "riotId": {
+                    "gameName": "FNC Upset",
+                    "tagLine": "0308",
+                    "region": "euw1"
+                }
+            }
+        },
+        "farfetch#296": {
+            "summoner_id": "farfetch#296",
+            "stream_key": "123",
+            "channel_name": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "pVYHRnVkPUYE-dKxIT16YQIP9IWq-n_NXAWcWj8UsMjdRvc",
+                    "accountId": "342wEIFPPsb2lB3nu1NtIk6eNoj3Okn-0DRdflBqGC2B330",
+                    "puuid": "iZibsRTjhQY_fpiSiCMSWipABiOKzxKugA-IKubRyAOCyT3koxhk9eaj-mSrLftUIQoOij3DWOA8Nw",
+                    "profileIconId": 1114,
+                    "revisionDate": 1741262406286,
+                    "summonerLevel": 939,
+                    "riotId": {
+                        "gameName": "farfetch",
+                        "tagLine": "296",
+                        "puuid": "iZibsRTjhQY_fpiSiCMSWipABiOKzxKugA-IKubRyAOCyT3koxhk9eaj-mSrLftUIQoOij3DWOA8Nw"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1261,
+                    "wins": 131,
+                    "losses": 98
+                },
+                "riotId": {
+                    "gameName": "farfetch",
+                    "tagLine": "296",
+                    "region": "euw1"
+                }
+            }
+        },
+        "happy game#qwer": {
+            "summoner_id": "happy game#qwer",
+            "stream_key": "123",
+            "channel_name": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "dlPfXu7mAVn1r4qGcDRV--5NkVEoN0dHmMucOqOyr2ybQ6Az-WSW6qv3mQ",
+                    "accountId": "Utp_dRYBzibvSyFscE1C5d6XDYp1inuNsS_SD9MypjBKUkRDwZSCLYht",
+                    "puuid": "V6l52tFTv6JuTW0i7hDUOyXYskxEeIkrjcAtpIxroSmW01Cmgqjurw855i7cSnYPvfGU09omcbC3vg",
+                    "profileIconId": 29,
+                    "revisionDate": 1741284875146,
+                    "summonerLevel": 90,
+                    "riotId": {
+                        "gameName": "happy game",
+                        "tagLine": "qwer",
+                        "puuid": "V6l52tFTv6JuTW0i7hDUOyXYskxEeIkrjcAtpIxroSmW01Cmgqjurw855i7cSnYPvfGU09omcbC3vg"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1347,
+                    "wins": 270,
+                    "losses": 220
+                },
+                "riotId": {
+                    "gameName": "happy game",
+                    "tagLine": "qwer",
+                    "region": "euw1"
+                }
+            }
+        },
+        "Sayn CHOKBAR 1#EUW": {
+            "summoner_id": "Sayn CHOKBAR 1#EUW",
+            "stream_key": "123",
+            "channel_name": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "1JqLlH8loY1jxH82frk8JQXq5YKmNNh0snMiarYGvVQTb1cy-DAWH8C7Qw",
+                    "accountId": "6yFWfNxJgz1_lrr7QFTCvaN-G27kCJFRduLhoISeLDA1kC4o2E7LtGCX",
+                    "puuid": "0bsKh3CsN-uEQK3di5KAMz9O9WwFNVsp17m7vFZduUFD0znqUExf9L6L9s4sFGyyANbY59QMVltc8g",
+                    "profileIconId": 6379,
+                    "revisionDate": 1741290424778,
+                    "summonerLevel": 576,
+                    "riotId": {
+                        "gameName": "Sayn CHOKBAR 1",
+                        "tagLine": "EUW",
+                        "puuid": "0bsKh3CsN-uEQK3di5KAMz9O9WwFNVsp17m7vFZduUFD0znqUExf9L6L9s4sFGyyANbY59QMVltc8g"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1096,
+                    "wins": 165,
+                    "losses": 141
+                },
+                "riotId": {
+                    "gameName": "Sayn CHOKBAR 1",
+                    "tagLine": "EUW",
+                    "region": "euw1"
+                }
+            }
+        }
+    }
+}
