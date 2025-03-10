@@ -4,7 +4,7 @@
     "obs_port": 4455,
     "obs_password": "qbc3A3Oap9RIUynA",
     "riot_api_key": "RGAPI-992e88a3-f130-4b0b-b904-e0c67b07cafe",
-    "league_path": "D:/League Of Legends/Riot Games/League of Legends/Game",
+    "league_path": "D:/Riot Games/League of Legends/Game",
     "players": {
         "keia#shy": {
             "summoner_id": "keia#shy",
@@ -12,7 +12,7 @@
             "channel": "",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "yaSS0keuk6oY8O-k7Ic-4r6IkfwAZfJ9DNfS3IGNsRp_VUA",
@@ -148,7 +148,7 @@
             "channel": "",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "1JqLlH8loY1jxH82frk8JQXq5YKmNNh0snMiarYGvVQTb1cy-DAWH8C7Qw",
@@ -182,7 +182,7 @@
             "channel": "1123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "rEI61oLEyVlyWW7jiT_loChyqcPRBcFLx-VsBvPaxVr6_kQ",
@@ -216,7 +216,7 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "PhooP7QFP9rXTc1GOZUHwVqa0CD6XIyJudPJI58qTYNgoq4",
@@ -250,7 +250,7 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "N3Ng3DyIQb20gYbon2nskZ7XSyQ_XXQYbIahadwHL8LqPoE",
@@ -284,7 +284,7 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "0BOONFrDxjNwrg03HLAoz98wvfhYH1Y7y6I8g1mIcz0fuSdR",
@@ -318,7 +318,7 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "H3txX1o4npEI4NwjE6Vb4pRI6l23_uUcnbt8gaYpmTBitMQlxCrqIFRg_w",
@@ -342,6 +342,244 @@
                 "riotId": {
                     "gameName": "yitcpyp",
                     "tagLine": "EUW",
+                    "region": "euw1"
+                }
+            }
+        },
+        "WinnersQ is Real#ALB": {
+            "summoner_id": "WinnersQ is Real#ALB",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "F1a7CY7xWyGFrfGgLc57fqxrilCXaqqrQZa6th8MKbI_8GA",
+                    "accountId": "3r7xViwlm_GuLFn-ZS7sHqtbeWmsmSlS0bjrYUMDQLqKNw",
+                    "puuid": "7fnvfUWl7RP_dZbIrtWBZYRwIZRPWfgYjd3L-ZmvsjccZAV9_MAzhJqhv8vQrlUqcpteWO_g48x2Hg",
+                    "profileIconId": 5470,
+                    "revisionDate": 1741605521927,
+                    "summonerLevel": 771,
+                    "riotId": {
+                        "gameName": "WinnersQ is Real",
+                        "tagLine": "ALB",
+                        "puuid": "7fnvfUWl7RP_dZbIrtWBZYRwIZRPWfgYjd3L-ZmvsjccZAV9_MAzhJqhv8vQrlUqcpteWO_g48x2Hg"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1157,
+                    "wins": 171,
+                    "losses": 144
+                },
+                "riotId": {
+                    "gameName": "WinnersQ is Real",
+                    "tagLine": "ALB",
+                    "region": "euw1"
+                }
+            }
+        },
+        "Agurin#DND": {
+            "summoner_id": "Agurin#DND",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "Glwk5k1FTKjn6TjwkM-fMp6HbuuPw1wfrV44Iu0MpURg-Ms",
+                    "accountId": "mLE_gj8Ni4VrE1hZtD-cfeWitIBu7PqcQPP0SjnC4YV5yQ",
+                    "puuid": "VghKjmL9nb3r5XhUhSA2yE5OfpLz7az-UjaXfipQ6JDh5MwvA5rCCvy7bX0oZ0hIKRYy0xkBo7lLwA",
+                    "profileIconId": 4353,
+                    "revisionDate": 1741615244028,
+                    "summonerLevel": 1104,
+                    "riotId": {
+                        "gameName": "Agurin",
+                        "tagLine": "DND",
+                        "puuid": "VghKjmL9nb3r5XhUhSA2yE5OfpLz7az-UjaXfipQ6JDh5MwvA5rCCvy7bX0oZ0hIKRYy0xkBo7lLwA"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1424,
+                    "wins": 103,
+                    "losses": 62
+                },
+                "riotId": {
+                    "gameName": "Agurin",
+                    "tagLine": "DND",
+                    "region": "euw1"
+                }
+            }
+        },
+        "BROHAN#GEAR5": {
+            "summoner_id": "BROHAN#GEAR5",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "j71NDk-33OdnMPZo3wRPz8bTtX-cbw8tZ2ZW3SDKSCPBzP5QjYjvgfla3g",
+                    "accountId": "uaAn8XFKieL4_laeY22IjqAAXekL4sZ7cJNDwP1gQIdR0oPrS-KM7Jlr",
+                    "puuid": "W1nWyIyDT4qf0DnUV5epDpHoEbXCXNJJeyYL7d9sIRGLDWQNSPq-dq5HbgsxbR8g84keFw_l-Vv2tQ",
+                    "profileIconId": 29,
+                    "revisionDate": 1741614941579,
+                    "summonerLevel": 84,
+                    "riotId": {
+                        "gameName": "BROHAN",
+                        "tagLine": "GEAR5",
+                        "puuid": "W1nWyIyDT4qf0DnUV5epDpHoEbXCXNJJeyYL7d9sIRGLDWQNSPq-dq5HbgsxbR8g84keFw_l-Vv2tQ"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1039,
+                    "wins": 174,
+                    "losses": 150
+                },
+                "riotId": {
+                    "gameName": "BROHAN",
+                    "tagLine": "GEAR5",
+                    "region": "euw1"
+                }
+            }
+        },
+        "SPKTR#SPKTR": {
+            "summoner_id": "SPKTR#SPKTR",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "At63oUsv1Oa5ec-z91bjnxVKgficCV7FJ9fUFBpJ9MrBm6E",
+                    "accountId": "EulJZ38gKx-oXKMWQVme3eJ3mx0QFri5ea4MAt6L3USkRus",
+                    "puuid": "_Od-Ca8kJHR-z4-10lfN_7QZnTlWVOkYWmUYwqp3XpYdX0GdDQ5Jju5CpOqzlHglxJwSEO8CzpDAqw",
+                    "profileIconId": 5038,
+                    "revisionDate": 1741620373527,
+                    "summonerLevel": 658,
+                    "riotId": {
+                        "gameName": "SPKTR",
+                        "tagLine": "SPKTR",
+                        "puuid": "_Od-Ca8kJHR-z4-10lfN_7QZnTlWVOkYWmUYwqp3XpYdX0GdDQ5Jju5CpOqzlHglxJwSEO8CzpDAqw"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 985,
+                    "wins": 98,
+                    "losses": 70
+                },
+                "riotId": {
+                    "gameName": "SPKTR",
+                    "tagLine": "SPKTR",
+                    "region": "euw1"
+                }
+            }
+        },
+        "RKR#123": {
+            "summoner_id": "RKR#123",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "y9dyTHnG5RAiWURUCmeqqW61opvVsaHQVK9v_HXrshNfUXQ",
+                    "accountId": "3LDw2_MP6Bshu2vsexBRSBZ88WpU6Fao8jjw3aRZWWauPrc",
+                    "puuid": "tvBLT7HmdHaI5lClTu_Y2A4ZMwFjpVLfs2GrDakmayfO-eGkO3odeiQ_BDetUONXQAd7YJ2yzoDnng",
+                    "profileIconId": 6773,
+                    "revisionDate": 1741621503904,
+                    "summonerLevel": 937,
+                    "riotId": {
+                        "gameName": "RKR",
+                        "tagLine": "123",
+                        "puuid": "tvBLT7HmdHaI5lClTu_Y2A4ZMwFjpVLfs2GrDakmayfO-eGkO3odeiQ_BDetUONXQAd7YJ2yzoDnng"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1600,
+                    "wins": 276,
+                    "losses": 221
+                },
+                "riotId": {
+                    "gameName": "RKR",
+                    "tagLine": "123",
+                    "region": "euw1"
+                }
+            }
+        },
+        "G2 Caps#1323": {
+            "summoner_id": "G2 Caps#1323",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "DtA_9Abf1RkA703Zr_hUqgeRtAzFfgPXEVHjJLrv5B_1kKM",
+                    "accountId": "k5h5i7BnORQTwtA0nky1mrMs_60gaVUtrhahkz9dSKmls94",
+                    "puuid": "7xMwDHXN9o-sxMBSxx9OSUZDDRmwD0Ldm1NQmRa0FxV6_Jm_k93_1fl1dO4dfjd9BgeFTnlqmfNbqQ",
+                    "profileIconId": 23,
+                    "revisionDate": 1741616183516,
+                    "summonerLevel": 1080,
+                    "riotId": {
+                        "gameName": "G2 Caps",
+                        "tagLine": "1323",
+                        "puuid": "7xMwDHXN9o-sxMBSxx9OSUZDDRmwD0Ldm1NQmRa0FxV6_Jm_k93_1fl1dO4dfjd9BgeFTnlqmfNbqQ"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1512,
+                    "wins": 184,
+                    "losses": 147
+                },
+                "riotId": {
+                    "gameName": "G2 Caps",
+                    "tagLine": "1323",
+                    "region": "euw1"
+                }
+            }
+        },
+        "OLEG INSEC#OLEG": {
+            "summoner_id": "OLEG INSEC#OLEG",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "K-NGOMSTVMGTNiJq0KHgxBoCBuv7BzQrlLpwgfpbvBPSRctV8CeShWn1GA",
+                    "accountId": "r93tvfLfx0xV14d3QZxOq_aF5iREZgjgdmYCAuzwU12Rlqyvuv65rjMn",
+                    "puuid": "VlPHwjJyskcRwFgZIXEksUXIvBCqJpsG5WdS9YCJgLS7PlAe2ZZTZTSoWPNFtRQrstLm3q4C1EiEGA",
+                    "profileIconId": 5022,
+                    "revisionDate": 1741607030768,
+                    "summonerLevel": 423,
+                    "riotId": {
+                        "gameName": "OLEG INSEC",
+                        "tagLine": "OLEG",
+                        "puuid": "VlPHwjJyskcRwFgZIXEksUXIvBCqJpsG5WdS9YCJgLS7PlAe2ZZTZTSoWPNFtRQrstLm3q4C1EiEGA"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 995,
+                    "wins": 117,
+                    "losses": 85
+                },
+                "riotId": {
+                    "gameName": "OLEG INSEC",
+                    "tagLine": "OLEG",
                     "region": "euw1"
                 }
             }

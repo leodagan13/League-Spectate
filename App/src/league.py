@@ -2,21 +2,31 @@
 from pantheon import pantheon
 import asyncio
 from typing import Optional, Dict, Any
+import os
+import sys
 
 class LeagueAPI:
     def __init__(self, api_key: str, region: str = "euw1"):
+        self.api_key = api_key
         self.region = region
+        self.log_callback = print  # Default logger
+        
+        # Créer une nouvelle boucle pour le thread actuel au lieu d'utiliser get_event_loop()
+        try:
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+        except Exception as e:
+            print(f"Error creating event loop: {str(e)}")
+
         self.panth = pantheon.Pantheon(
             server=region,
             api_key=api_key,
             auto_retry=True
         )
-        self.loop = asyncio.get_event_loop()
-        self.log = print  # Default logger
 
     def set_logger(self, logger):
         """Set a custom logger function"""
-        self.log = logger
+        self.log_callback = logger
 
     async def _get_active_game(self, summoner_id: str) -> Dict[str, Any]:
         """Get active game data for a summoner"""
@@ -27,7 +37,7 @@ class LeagueAPI:
             summoner = await summoner_data.json()
             
             if "puuid" not in summoner:
-                self.log(f"Could not get PUUID for summoner ID: {summoner_id}", "ERROR")
+                self.log_callback(f"Could not get PUUID for summoner ID: {summoner_id}", "ERROR")
                 return {}
             
             puuid = summoner["puuid"]
@@ -41,23 +51,23 @@ class LeagueAPI:
             
             if "status" in match and "message" in match["status"]:
                 # This means there's no active game
-                self.log(f"No active game found: {match['status']['message']}", "INFO")
+                self.log_callback(f"No active game found: {match['status']['message']}", "INFO")
                 return {}
                 
             if "gameId" not in match:
-                self.log("Invalid game data received - no gameId found", "ERROR")
+                self.log_callback("Invalid game data received - no gameId found", "ERROR")
                 return {}
                 
-            self.log(f"Found active game: Game ID={match['gameId']}", "INFO")
+            self.log_callback(f"Found active game: Game ID={match['gameId']}", "INFO")
             return match
             
         except Exception as e:
             error_msg = str(e)
             if "404" in error_msg:
                 # This is normal - means no active game
-                self.log("No active game found", "INFO")
+                self.log_callback("No active game found", "INFO")
                 return {}
-            self.log(f"Error getting active game: {error_msg}", "ERROR")
+            self.log_callback(f"Error getting active game: {error_msg}", "ERROR")
             return {}
 
     async def _get_summoner_stats(self, summoner_id: str) -> Dict[str, Any]:
@@ -193,7 +203,7 @@ class LeagueAPI:
                 # Get account info using Riot ID
                 summoner = self.loop.run_until_complete(self._get_summoner_by_riot_id(game_name, tag_line))
                 if not summoner or "id" not in summoner:
-                    self.log(f"Could not find summoner with Riot ID: {summoner_id}", "ERROR")
+                    self.log_callback(f"Could not find summoner with Riot ID: {summoner_id}", "ERROR")
                     return {}
                 summoner_id = summoner["id"]  # Use the encrypted summoner ID
 
@@ -201,12 +211,103 @@ class LeagueAPI:
             game_info = self.loop.run_until_complete(self._get_active_game(summoner_id))
             
             if game_info:
-                self.log(f"Found active game: Game ID={game_info.get('gameId')}", "INFO")
+                self.log_callback(f"Found active game: Game ID={game_info.get('gameId')}", "INFO")
             
             return game_info
         except Exception as e:
             error_msg = str(e)
             if "403" in error_msg:
                 raise Exception("API Key expired or invalid. Please update in settings.")
-            self.log(f"Error getting active game: {error_msg}", "ERROR")
+            self.log_callback(f"Error getting active game: {error_msg}", "ERROR")
             return {}
+
+    def create_spectate_command(self, game_id: str, league_path: str):
+        """
+        Crée la commande pour lancer le client spectateur de LoL - version simplifiée et robuste
+        """
+        try:
+            # Validation des entrées
+            if not game_id:
+                raise ValueError("Game ID is required")
+            
+            # Vérification du chemin League
+            if not league_path:
+                raise ValueError("League path is not configured")
+            
+            self.log_callback(f"Using League path from config: '{league_path}'", "DEBUG")
+            
+            # Validation du chemin et recherche de l'exécutable
+            exe_path = ""
+            
+            # Si c'est un répertoire, chercher l'exe
+            if os.path.isdir(league_path):
+                self.log_callback(f"League path is a directory", "DEBUG")
+                potential_exe = os.path.join(league_path, "League of Legends.exe")
+                
+                if os.path.isfile(potential_exe):
+                    exe_path = potential_exe
+                else:
+                    raise ValueError(f"League of Legends.exe not found in: {league_path}")
+            
+            # Si c'est déjà l'exe
+            elif league_path.endswith("League of Legends.exe") and os.path.isfile(league_path):
+                exe_path = league_path
+            else:
+                raise ValueError(f"Invalid League path: {league_path}")
+            
+            # Vérification finale
+            if not os.path.exists(exe_path):
+                raise ValueError(f"Executable not found: {exe_path}")
+            
+            self.log_callback(f"Final executable path: {exe_path}", "DEBUG")
+            
+            # Format des arguments pour le mode spectateur - format EXACT requis par LoL
+            region_code = self.region.lower().split('1')[0]  # ex: euw1 -> euw
+            spectator_host = f"spectator.{self.region}.lol.riotgames.com:80"
+            
+            # Le format exact: "spectator spectator.euw1.lol.riotgames.com:80 GAMEID ENCRYPTIONKEY REGION"
+            # Pour observer, encryption_key = game_id
+            spectator_args = f"spectator {spectator_host} {game_id} {game_id} {region_code}"
+            
+            self.log_callback(f"Spectator arguments: '{spectator_args}'", "DEBUG")
+            
+            # Log la commande complète pour faciliter le débogage
+            self.log_callback(f"FINAL COMMAND: \"{exe_path}\" \"{spectator_args}\"", "INFO")
+            
+            return [exe_path, spectator_args]
+            
+        except Exception as e:
+            self.log_callback(f"Error in create_spectate_command: {str(e)}", "ERROR")
+            import traceback
+            self.log_callback(f"Stack trace: {traceback.format_exc()}", "ERROR")
+            raise Exception(f"Failed to create spectate command: {str(e)}")
+
+    # Constantes pour les points de terminaison API
+    API_ENDPOINTS = {
+        "euw": "euw1.api.riotgames.com",
+        "eun": "eun1.api.riotgames.com",
+        "na": "na1.api.riotgames.com",
+        "kr": "kr.api.riotgames.com",
+        "jp": "jp1.api.riotgames.com",
+        "br": "br1.api.riotgames.com",
+        "la1": "la1.api.riotgames.com",
+        "la2": "la2.api.riotgames.com",
+        "oc": "oc1.api.riotgames.com",
+        "tr": "tr1.api.riotgames.com",
+        "ru": "ru.api.riotgames.com"
+    }
+    
+    # Ajout des endpoints pour le spectateur
+    SPECTATOR_ENDPOINTS = {
+        "euw": "spectator.euw1.lol.riotgames.com",
+        "eun": "spectator.eun1.lol.riotgames.com",
+        "na": "spectator.na1.lol.riotgames.com",
+        "kr": "spectator.kr.lol.riotgames.com",
+        "jp": "spectator.jp1.lol.riotgames.com",
+        "br": "spectator.br1.lol.riotgames.com",
+        "la1": "spectator.la1.lol.riotgames.com",
+        "la2": "spectator.la2.lol.riotgames.com", 
+        "oc": "spectator.oc1.lol.riotgames.com",
+        "tr": "spectator.tr1.lol.riotgames.com",
+        "ru": "spectator.ru.lol.riotgames.com"
+    }

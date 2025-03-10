@@ -1,0 +1,120 @@
+[2025-03-10 17:07:29] INFO: Application starting
+[2025-03-10 17:07:29] INFO: Loading configuration
+[2025-03-10 17:07:29] INFO: Initializing service
+[2025-03-10 17:07:29] INFO: Creating main window
+[2025-03-10 17:07:29] INFO: Application started successfully
+[2025-03-10 17:08:44] INFO: Application starting
+[2025-03-10 17:08:44] INFO: Loading configuration
+[2025-03-10 17:08:44] INFO: Initializing service
+[2025-03-10 17:08:44] INFO: Creating main window
+[2025-03-10 17:08:44] INFO: Application started successfully
+[2025-03-10 17:09:44] INFO: Application starting
+[2025-03-10 17:09:44] INFO: Loading configuration
+[2025-03-10 17:09:44] INFO: Initializing service
+[2025-03-10 17:09:44] INFO: Creating main window
+[2025-03-10 17:09:44] INFO: Application started successfully
+[2025-03-10 17:10:25] INFO: Application starting
+[2025-03-10 17:10:25] INFO: Loading configuration
+[2025-03-10 17:10:25] INFO: Initializing service
+[2025-03-10 17:10:25] INFO: Creating main window
+[2025-03-10 17:10:25] INFO: Application started successfully
+[2025-03-10 17:11:48] INFO: Application starting
+[2025-03-10 17:11:48] INFO: Loading configuration
+[2025-03-10 17:11:48] INFO: Initializing service
+[2025-03-10 17:11:48] INFO: Creating main window
+[2025-03-10 17:11:48] INFO: Application started successfully
+[2025-03-10 17:12:33] INFO: Application starting
+[2025-03-10 17:12:33] INFO: Loading configuration
+[2025-03-10 17:12:33] INFO: Initializing service
+[2025-03-10 17:12:33] INFO: Creating main window
+[2025-03-10 17:12:33] INFO: Application started successfully
+[2025-03-10 17:13:33] INFO: Application starting
+[2025-03-10 17:13:33] INFO: Loading configuration
+[2025-03-10 17:13:33] INFO: Initializing service
+[2025-03-10 17:13:33] INFO: Creating main window
+[2025-03-10 17:13:33] INFO: Application started successfully
+[2025-03-10 17:15:59] INFO: Application starting
+[2025-03-10 17:15:59] INFO: Loading configuration
+[2025-03-10 17:15:59] INFO: Initializing service
+[2025-03-10 17:15:59] INFO: Creating main window
+[2025-03-10 17:15:59] INFO: Application started successfully
+[2025-03-10 17:16:57] INFO: Application starting
+[2025-03-10 17:16:57] INFO: Loading configuration
+[2025-03-10 17:16:57] INFO: Initializing service
+[2025-03-10 17:16:57] INFO: Creating main window
+[2025-03-10 17:16:58] INFO: Application started successfully
+[2025-03-10 17:18:55] INFO: Application starting
+[2025-03-10 17:18:55] INFO: Loading configuration
+[2025-03-10 17:18:55] INFO: Initializing service
+[2025-03-10 17:18:55] INFO: Creating main window
+[2025-03-10 17:18:55] INFO: Application started successfully
+[2025-03-10 17:25:26] INFO: Application starting
+[2025-03-10 17:25:26] INFO: Loading configuration
+[2025-03-10 17:25:26] INFO: Initializing service
+[2025-03-10 17:25:26] INFO: Creating main window
+[2025-03-10 17:25:27] INFO: Application started successfully
+[2025-03-10 17:28:36] INFO: Application starting
+[2025-03-10 17:28:36] INFO: Loading configuration
+[2025-03-10 17:28:36] INFO: Initializing service
+[2025-03-10 17:28:36] INFO: Creating main window
+[2025-03-10 17:28:36] INFO: Application started successfully
+[2025-03-10 17:28:57] INFO: Application starting
+[2025-03-10 17:28:57] INFO: Loading configuration
+[2025-03-10 17:28:57] INFO: Initializing service
+[2025-03-10 17:28:57] INFO: Creating main window
+[2025-03-10 17:28:57] INFO: Application started successfully
+[2025-03-10 17:33:41] INFO: Application starting
+[2025-03-10 17:33:41] INFO: Loading configuration
+[2025-03-10 17:33:41] INFO: Initializing service
+[2025-03-10 17:33:41] INFO: Creating main window
+[2025-03-10 17:33:42] INFO: Application started successfully
+[2025-03-10 17:33:48] INFO: Application starting
+[2025-03-10 17:33:48] INFO: Loading configuration
+[2025-03-10 17:33:48] INFO: Initializing service
+[2025-03-10 17:33:48] INFO: Creating main window
+[2025-03-10 17:33:48] INFO: Application started successfully
+[2025-03-10 17:33:55] INFO: Application starting
+[2025-03-10 17:33:55] INFO: Loading configuration
+[2025-03-10 17:33:55] INFO: Initializing service
+[2025-03-10 17:33:55] INFO: Creating main window
+[2025-03-10 17:33:55] INFO: Application started successfully
+[2025-03-10 17:34:00] INFO: Application starting
+[2025-03-10 17:34:00] INFO: Loading configuration
+[2025-03-10 17:34:00] INFO: Initializing service
+[2025-03-10 17:34:00] INFO: Creating main window
+[2025-03-10 17:34:00] INFO: Application started successfully
+[2025-03-10 17:34:12] INFO: Application starting
+[2025-03-10 17:34:12] INFO: Loading configuration
+[2025-03-10 17:34:12] INFO: Initializing service
+[2025-03-10 17:34:12] INFO: Creating main window
+[2025-03-10 17:34:12] INFO: Application started successfully
+[2025-03-10 17:36:09] INFO: Application starting
+[2025-03-10 17:36:09] INFO: Loading configuration
+[2025-03-10 17:36:09] INFO: Initializing service
+[2025-03-10 17:36:09] INFO: Creating main window
+[2025-03-10 17:36:10] INFO: Application started successfully
+[2025-03-10 17:36:41] INFO: Application starting
+[2025-03-10 17:36:41] INFO: Loading configuration
+[2025-03-10 17:36:41] INFO: Initializing service
+[2025-03-10 17:36:41] INFO: Creating main window
+[2025-03-10 17:36:42] INFO: Application started successfully
+[2025-03-10 17:37:17] INFO: Application starting
+[2025-03-10 17:37:17] INFO: Loading configuration
+[2025-03-10 17:37:17] INFO: Initializing service
+[2025-03-10 17:37:17] INFO: Creating main window
+[2025-03-10 17:37:17] INFO: Application started successfully
+[2025-03-10 17:38:53] INFO: Application starting
+[2025-03-10 17:38:53] INFO: Loading configuration
+[2025-03-10 17:38:53] INFO: Initializing service
+[2025-03-10 17:38:53] INFO: Creating main window
+[2025-03-10 17:38:53] INFO: Application started successfully
+[2025-03-10 17:39:10] INFO: Application starting
+[2025-03-10 17:39:10] INFO: Loading configuration
+[2025-03-10 17:39:10] INFO: Initializing service
+[2025-03-10 17:39:10] INFO: Creating main window
+[2025-03-10 17:39:10] INFO: Application started successfully
+[2025-03-10 17:43:13] INFO: Application starting
+[2025-03-10 17:43:13] INFO: Loading configuration
+[2025-03-10 17:43:13] INFO: Initializing service
+[2025-03-10 17:43:13] INFO: Creating main window
+[2025-03-10 17:43:13] INFO: Application started successfully

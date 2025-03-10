@@ -467,7 +467,7 @@ class ModernConsole(QFrame):
             }
         """)
         layout.addWidget(self.text_area)
-        
+
     def log(self, message: str, level: str = "INFO"):
         timestamp = datetime.now().strftime("%H:%M:%S")
         
@@ -492,7 +492,7 @@ class ModernConsole(QFrame):
         self.text_area.moveCursor(QTextCursor.End)
         self.text_area.insertHtml(formatted_message)
         self.text_area.moveCursor(QTextCursor.End)
-    
+
     def clear(self):
         self.text_area.clear()
 
@@ -520,7 +520,7 @@ class AddPlayerDialog(QDialog):
         
         self.priority_input = QSpinBox()
         self.priority_input.setRange(0, 100)
-          
+        
         # Add region dropdown
         self.region_input = QComboBox()
         self.region_input.addItems([
@@ -716,7 +716,7 @@ class MainWindow(QMainWindow):
                 margin: 2px;
             }
         """)
-        
+
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         
@@ -908,47 +908,27 @@ class MainWindow(QMainWindow):
             # Déconnecter les signaux existants pour éviter les doubles connexions
             # Utiliser une méthode encore plus sécurisée - ne pas déconnecter tous les signaux
             # mais plutôt recréer le widget entièrement
-            old_table = self.players_table
             
-            # Créer une nouvelle table qui remplace l'ancienne
-            self.players_table = ModernTableWidget()
+            # Clear the table first
+            self.players_table.setRowCount(0)
+            
+            # Configure columns
             self.players_table.setColumnCount(6)
-            self.players_table.setHorizontalHeaderLabels(["Joueur", "Région", "Chaîne", "Streaming", "Active", "Actions"])
+            self.players_table.setHorizontalHeaderLabels([
+                "Name", "Region", "Channel", "Streaming", "Active", "Actions"
+            ])
             
-            # Remplacer l'ancienne table dans le layout de manière sécurisée
-            try:
-                parent = old_table.parent()
-                if parent and parent.layout():
-                    players_layout = parent.layout()
-                    index = players_layout.indexOf(old_table)
-                    if index >= 0:
-                        players_layout.removeWidget(old_table)
-                        players_layout.insertWidget(index, self.players_table)
-                        # Supprimer l'ancienne table proprement
-                        old_table.deleteLater()
-                    else:
-                        self.console.log("Avertissement: Impossible de trouver l'index de la table dans le layout", "WARNING")
-                else:
-                    self.console.log("Avertissement: La table n'a pas de parent ou de layout valide", "WARNING")
-            except Exception as e:
-                self.console.log(f"Erreur lors du remplacement de la table: {str(e)}", "ERROR")
-                # En cas d'erreur, supprimer quand même l'ancienne table
-                old_table.deleteLater()
+            # Set column widths
+            self.players_table.setColumnWidth(0, 150)  # Name
+            self.players_table.setColumnWidth(1, 80)   # Region
+            self.players_table.setColumnWidth(2, 150)  # Channel
+            self.players_table.setColumnWidth(3, 100)  # Status
+            self.players_table.setColumnWidth(4, 80)   # Active/Inactive
+            self.players_table.setColumnWidth(5, 120)  # Actions - réduit de moitié
             
-            # Définir des largeurs de colonnes fixes pour s'assurer que tout est visible
-            self.players_table.setColumnWidth(0, 180)  # Joueur
-            self.players_table.setColumnWidth(1, 80)   # Région
-            self.players_table.setColumnWidth(2, 150)  # Chaîne
-            self.players_table.setColumnWidth(3, 110)  # Streaming
-            self.players_table.setColumnWidth(4, 110)
-            self.players_table.setColumnWidth(5, 60)   # Actions - réduit à 60 pixels
-            
-            # Désactiver l'étirement automatique des colonnes
-            self.players_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
-            
-            # Optionnellement, étirer la dernière colonne
+            # Set stretch for the last column
             self.players_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
-            
+        
             sorted_players = sorted(list(self.config.players.items()))
             
             for row, (name, player) in enumerate(sorted_players):
@@ -983,13 +963,9 @@ class MainWindow(QMainWindow):
                 status_label = QLabel(status)
                 status_label.setStyleSheet(f"""
                     background-color: {('#dcfce7' if status == 'Streaming' else '#f3f4f6')};
-                    color: {('#15803d' if status == 'Streaming' else '#4b5563')};
+                    color: {('#16a34a' if status == 'Streaming' else '#374151')};
                     padding: 4px 8px;
-                    border-radius: 12px;
-                    font-size: 12px;
-                    font-weight: 500;
-                    min-width: 80px;
-                    text-align: center;
+                    border-radius: 4px;
                 """)
                 status_layout.addWidget(status_label)
                 status_layout.addStretch()
@@ -1014,13 +990,12 @@ class MainWindow(QMainWindow):
                     QPushButton {{
                         background-color: {bg_color};
                         color: {color};
-                        border: 2px solid {border_color};
+                        border: 1px solid {border_color};
                         border-radius: 6px;
-                        font-weight: bold;
-                        font-size: 13px;
+                        padding: 2px 6px;
                     }}
                     QPushButton:hover {{
-                        border-width: 3px;
+                        background-color: {border_color};
                     }}
                 """)
                 
@@ -1031,10 +1006,9 @@ class MainWindow(QMainWindow):
                         self.toggle_player(player_name, not enabled)
                     return handler
                 
-                # Connecter directement à la fonction
                 active_btn.clicked.connect(toggle_click_handler())
-                
                 active_layout.addWidget(active_btn)
+                
                 self.players_table.setCellWidget(row, 4, active_widget)
                 
                 # Action buttons (column 5)
@@ -1053,17 +1027,23 @@ class MainWindow(QMainWindow):
                         color: #2563eb;
                         border: 1px solid #bfdbfe;
                         border-radius: 6px;
-                        padding: 6px 12px;
-                        font-size: 13px;
-                        font-weight: 500;
-                        min-width: 60px;
+                        padding: 2px 4px;
                     }
                     QPushButton:hover {
                         background-color: #dbeafe;
                     }
                 """)
                 
-                delete_btn = QPushButton("Delete")
+                # Fonctions de création de handler plus sûres
+                def create_edit_handler(player_name):
+                    return lambda checked=False: self.edit_player(player_name)
+                
+                def create_delete_handler(player_name):
+                    return lambda checked=False: self.delete_player(player_name)
+                
+                edit_btn.clicked.connect(create_edit_handler(name))
+                
+                delete_btn = QPushButton("Del")
                 delete_btn.setFixedSize(25, 25)
                 delete_btn.setCursor(Qt.PointingHandCursor)
                 delete_btn.setStyleSheet("""
@@ -1072,25 +1052,12 @@ class MainWindow(QMainWindow):
                         color: #dc2626;
                         border: 1px solid #fecaca;
                         border-radius: 6px;
-                        padding: 6px 12px;
-                        font-size: 13px;
-                        font-weight: 500;
-                        min-width: 60px;
+                        padding: 2px 4px;
                     }
                     QPushButton:hover {
                         background-color: #fecaca;
                     }
                 """)
-                
-                # Fonctions de création de handler plus sûres
-                def create_edit_handler(player_name):
-                    return lambda checked=False: self.edit_player(player_name)
-                    
-                def create_delete_handler(player_name):
-                    return lambda checked=False: self.delete_player(player_name)
-                
-                # Connect buttons with safer handler functions
-                edit_btn.clicked.connect(create_edit_handler(name))
                 delete_btn.clicked.connect(create_delete_handler(name))
                 
                 action_layout.addWidget(edit_btn)
@@ -1098,7 +1065,7 @@ class MainWindow(QMainWindow):
                 action_layout.addStretch()
                 
                 self.players_table.setCellWidget(row, 5, action_widget)
-
+        
         except Exception as e:
             self.console.log(f"Erreur lors de la mise à jour du tableau des joueurs: {str(e)}", "ERROR")
 
@@ -1206,100 +1173,115 @@ class MainWindow(QMainWindow):
                         self.toggle_button.setText("Start Service")
                         self.toggle_button.setEnabled(True)
                         return
-                    
-                    # Already configured, proceed with starting
-                    success = False
-                    
-                    try:
-                        # Override the service's emergency_log to use our console
-                        def emergency_log(self_svc, message, level="INFO"):
-                            if hasattr(self, 'console'):
-                                self.console.log(message, level)
-                            else:
-                                print(f"[{level}] {message}")
-                        
-                        self.service.log = emergency_log.__get__(self.service, type(self.service))
-                        
-                        # Start the service
-                        success = self.service.start()
-                        
-                        if success:
-                            self.console.log("Service started successfully", "SUCCESS")
-                            self.status_card.set_active(True)
-                            self.toggle_button.setText("Stop Service")
-                            # Mettre le bouton en rouge quand le service est actif
-                            self.toggle_button.setStyleSheet("""
-                                QPushButton {
-                                    background-color: #ef4444;
-                                    color: white;
-                                    border: none;
-                                    border-radius: 4px;
-                                    padding: 4px 10px;
-                                    min-width: 80px;
-                                }
-                                QPushButton:hover {
-                                    background-color: #dc2626;
-                                }
-                                QPushButton:pressed {
-                                    background-color: #b91c1c;
-                                }
-                                QPushButton:disabled {
-                                    background-color: #d1d5db;
-                                    color: #9ca3af;
-                                }
-                            """)
+                except Exception as e:
+                    self.console.log(f"Error checking configuration: {str(e)}", "ERROR")
+                    self.toggle_button.setText("Start Service")
+                    self.toggle_button.setEnabled(True)
+                    return
+                
+                # Already configured, proceed with starting
+                success = False
+                
+                try:
+                    # Override the service's emergency_log to use our console
+                    def emergency_log(self_svc, message, level="INFO"):
+                        if hasattr(self, 'console'):
+                            self.console.log(message, level)
                         else:
-                            self.console.log("Failed to start service", "ERROR")
-                            self.status_card.set_active(False)
-                            self.toggle_button.setText("Start Service")
-                            
-                    except Exception as e:
-                        # In case of error starting
-                        def emergency_log(self_svc, message, level="INFO"):
-                            if hasattr(self, 'console'):
-                                self.console.log(message, level)
-                            else:
-                                print(f"[{level}] {message}")
-                        
-                        self.service.log = emergency_log.__get__(self.service, type(self.service))
-                        
-                        self.console.log(f"Error starting service: {str(e)}", "ERROR")
+                            print(f"[{level}] {message}")
+                    
+                    self.service.log = emergency_log.__get__(self.service, type(self.service))
+                    
+                    # Start the service
+                    success = self.service.start()
+                    
+                    if success:
+                        self.console.log("Service started successfully", "SUCCESS")
+                        self.status_card.set_active(True)
+                        self.toggle_button.setText("Stop Service")
+                        # Mettre le bouton en rouge quand le service est actif
+                        self.toggle_button.setStyleSheet("""
+                            QPushButton {
+                                background-color: #ef4444;
+                                color: white;
+                                border: none;
+                                border-radius: 4px;
+                                padding: 4px 10px;
+                                min-width: 80px;
+                            }
+                            QPushButton:hover {
+                                background-color: #dc2626;
+                            }
+                            QPushButton:pressed {
+                                background-color: #b91c1c;
+                            }
+                            QPushButton:disabled {
+                                background-color: #d1d5db;
+                                color: #9ca3af;
+                            }
+                        """)
+                    else:
+                        self.console.log("Failed to start service", "ERROR")
                         self.status_card.set_active(False)
                         self.toggle_button.setText("Start Service")
-                        
+                    
                 except Exception as e:
-                    self.console.log(f"Error in service toggle: {str(e)}", "ERROR")
-                    self.status_card.set_active(self.service.running)
+                    # In case of error starting
+                    def emergency_log(self_svc, message, level="INFO"):
+                        if hasattr(self, 'console'):
+                            self.console.log(message, level)
+                        else:
+                            print(f"[{level}] {message}")
+                        
+                    self.service.log = emergency_log.__get__(self.service, type(self.service))
+                        
+                    self.console.log(f"Error starting service: {str(e)}", "ERROR")
+                    self.status_card.set_active(False)
                     self.toggle_button.setText("Start Service")
                 
-            # Re-enable button in all cases
-            self.toggle_button.setEnabled(True)
+                # Re-enable button in all cases
+                self.toggle_button.setEnabled(True)
+            
         except Exception as e:
             self.console.log(f"Erreur lors de la bascule du service: {str(e)}", "ERROR")
             self.status_card.set_active(self.service.running)
             self.toggle_button.setText("Start Service")
+            self.toggle_button.setEnabled(True)
 
     def update_status(self):
         """Update the status display based on the current service state"""
         try:
+            # Vérifier explicitement les attributs de Service pour le débogage
+            is_running = bool(self.service.running)
+            is_streaming = bool(self.service.isStreaming)
+            active_stream = self.service.active_stream
+            
+            self.console.log(f"[DEBUG] Status: running={is_running}, streaming={is_streaming}, active_stream={active_stream}", "INFO")
+            
             # Check if service is running
-            if hasattr(self.service, 'isStreaming') and self.service.isStreaming:
+            if is_streaming:
                 # Check what player is being streamed
-                active_stream = getattr(self.service, 'active_stream', None)
                 if active_stream:
-                    # If there's an active stream for a specific player, show that
-                    channel = self.config.players.get(active_stream, None)
-                    if channel:
-                        channel_name = getattr(channel, 'channel_name', 'unknown')
-                    else:
-                        channel_name = 'unknown'
-                    self.status_card.set_active(True, f"{active_stream} on {channel_name}")
+                    # Format: (player_name, channel_name)
+                    player_name, channel_name = active_stream
+                    self.status_card.set_active(True, f"{player_name} on {channel_name}")
+                    self.console.log(f"[STATUS] Streaming: {player_name} on {channel_name}", "SUCCESS")
                 else:
                     # Service is running but no specific player is streaming yet
                     self.status_card.set_active(True)
+                    self.console.log("[STATUS] Streaming but no player info", "WARNING")
             else:
-                # Service is not running
-                self.status_card.set_active(False)
+                # Service is not streaming
+                if is_running:
+                    self.status_card.set_active(True)
+                    self.console.log("[STATUS] Service running but not streaming", "INFO")
+                else:
+                    self.status_card.set_active(False)
+                    self.console.log("[STATUS] Service stopped", "INFO")
+                    
+            # Mettre à jour explicitement le tableau des joueurs
+            self.update_players_table(save=False)
+            
         except Exception as e:
             self.console.log(f"Error updating status: {str(e)}", "ERROR")
 
@@ -1347,22 +1329,48 @@ class MainWindow(QMainWindow):
 
     def toggle_player(self, name, state):
         """Change l'état d'un joueur sans sauvegarder immédiatement"""
-        print(f"Toggle player called: {name} -> {state}")  # Debug output
+        self.console.log(f"[TOGGLE-001] Attempting to toggle player {name} to {'active' if state else 'inactive'}", "INFO")
         
         try:
-            if name in self.config.players:
-                # Mise à jour de l'état du joueur en mémoire seulement
+            if not name:
+                self.console.log("[TOGGLE-002] Empty player name provided", "ERROR")
+                return False
+                
+            if name not in self.config.players:
+                self.console.log(f"[TOGGLE-003] Player {name} not found in configuration", "ERROR")
+                return False
+                
+            # Récupérer le statut actuel pour le comparer
+            current_state = self.config.players[name].enabled
+            self.console.log(f"[TOGGLE-004] Current state for {name}: {current_state}, new state: {state}", "DEBUG")
+            
+            if current_state == state:
+                self.console.log(f"[TOGGLE-005] State is already {state} for {name}, no change needed", "INFO")
+                return True
+                
+            # Mise à jour de l'état du joueur en mémoire seulement
+            try:
                 self.config.players[name].enabled = bool(state)
-                
-                # Log l'action
-                self.console.log(f"Joueur {name} est maintenant {'actif' if state else 'inactif'}", "INFO")
-                
-                # Mettre à jour l'interface sans sauvegarder
+                self.console.log(f"[TOGGLE-006] Player {name} is now {'active' if state else 'inactive'}", "SUCCESS")
+            except Exception as e:
+                self.console.log(f"[TOGGLE-ERR1] Failed to update player state: {str(e)}", "ERROR")
+                return False
+            
+            # Mettre à jour l'interface sans sauvegarder
+            try:
                 self.update_players_table(save=False)
-            else:
-                self.console.log(f"Impossible de modifier {name}: joueur non trouvé", "ERROR")
+                self.console.log(f"[TOGGLE-007] Player table updated for {name}", "DEBUG")
+                return True
+            except Exception as e:
+                self.console.log(f"[TOGGLE-ERR2] Failed to update UI: {str(e)}", "ERROR")
+                # On continue même si l'UI ne s'est pas mise à jour, l'état mémoire est correct
+                return True
+                
         except Exception as e:
-            self.console.log(f"Erreur lors de la modification de {name}: {str(e)}", "ERROR")
+            self.console.log(f"[TOGGLE-CRIT] Critical error toggling {name}: {str(e)}", "ERROR")
+            import traceback
+            self.console.log(f"[TOGGLE-TRACE] {traceback.format_exc()}", "ERROR")
+            return False
 
     def show_obs_settings(self):
         from .settings_dialog import SettingsDialog
@@ -1381,19 +1389,36 @@ class MainWindow(QMainWindow):
 
     def test_spectate(self):
         """Test the spectate functionality without starting the service"""
+        self.console.log("[SPECTATE-001] Starting spectate test", "INFO")
+        
+        sender = None
+        original_text = "Test Spectate"
+        
         try:
             # Récupérer le nom du joueur sélectionné ou choisir le premier de la liste
             player_name = None
+            active_count = 0
+            
+            self.console.log("[SPECTATE-002] Searching for active players", "INFO")
             for row in range(self.players_table.rowCount()):
-                if self.players_table.item(row, 4).text() == "Active":
-                    player_name = self.players_table.item(row, 0).text()
-                    break
+                try:
+                    cell_widget = self.players_table.cellWidget(row, 4)
+                    if cell_widget:
+                        is_active = "Active" in cell_widget.findChild(QPushButton).text()
+                        if is_active:
+                            active_count += 1
+                            if player_name is None:
+                                player_name = self.players_table.item(row, 0).text()
+                                self.console.log(f"[SPECTATE-003] Found active player: {player_name}", "INFO")
+                except Exception as e:
+                    self.console.log(f"[SPECTATE-ERR1] Error checking row {row}: {str(e)}", "ERROR")
+            
+            self.console.log(f"[SPECTATE-004] Found {active_count} active player(s)", "INFO")
             
             if player_name is None:
+                self.console.log("[SPECTATE-005] No active players found", "WARNING")
                 QMessageBox.warning(self, "No Active Players", "Please activate at least one player to test spectate.")
                 return
-            
-            self.console.log(f"Testing spectate for player: {player_name}", "INFO")
             
             # Désactiver le bouton pendant le test
             sender = self.sender()
@@ -1401,72 +1426,110 @@ class MainWindow(QMainWindow):
                 original_text = sender.text()
                 sender.setText("Testing...")
                 sender.setEnabled(False)
+                self.console.log("[SPECTATE-006] Disabled UI button during test", "DEBUG")
             
             # Effectuer le test de spectate
             try:
-                region = self.config.players[player_name].region
-                summoner_name = player_name.split('#')[0]  # Retirer la partie après # (tag)
-                
-                self.console.log(f"Using League API with {self.config.riot_api_key[:5]}... to find {summoner_name} on {region}", "INFO")
-                api = LeagueAPI(self.config.riot_api_key, region)
-                
-                # Obtenir l'ID d'invocateur et vérifier si en partie
-                summoner_id = api.get_summoner_id(summoner_name)
-                if not summoner_id:
-                    self.console.log(f"Could not find summoner: {summoner_name}", "ERROR")
-                    if sender:
-                        sender.setText(original_text)
-                        sender.setEnabled(True)
+                if player_name not in self.config.players:
+                    self.console.log(f"[SPECTATE-ERR2] Player {player_name} not found in config", "ERROR")
                     return
+                    
+                region = self.config.players[player_name].region
+                summoner_id = self.config.players[player_name].summoner_id
+                
+                self.console.log(f"[SPECTATE-007] Using League API for {player_name} (ID: {summoner_id}) on {region}", "INFO")
+                
+                if not self.config.riot_api_key:
+                    self.console.log("[SPECTATE-ERR3] No Riot API key configured", "ERROR")
+                    return
+                
+                api = LeagueAPI(self.config.riot_api_key, region)
+                api.set_logger(self.console.log)
                 
                 # Vérifier si en partie
+                self.console.log(f"[SPECTATE-008] Checking if player is in game", "INFO")
                 game_id = api.get_active_game_id(summoner_id)
+                
                 if not game_id:
-                    self.console.log(f"Player {summoner_name} is not in game", "WARNING")
-                    if sender:
-                        sender.setText(original_text)
-                        sender.setEnabled(True)
+                    self.console.log(f"[SPECTATE-009] Player {player_name} is not in game", "WARNING")
                     return
                 
-                self.console.log(f"Found active game with ID: {game_id}", "INFO")
+                self.console.log(f"[SPECTATE-010] Found active game with ID: {game_id}", "SUCCESS")
+                
+                # Vérifier le chemin de League
+                if not self.config.league_path or not os.path.exists(self.config.league_path):
+                    self.console.log("[SPECTATE-ERR4] League path is invalid or not configured", "ERROR") 
+                    return
                 
                 # Créer la commande de spectate
                 spectate_cmd = api.create_spectate_command(game_id, self.config.league_path)
-                self.console.log(f"Generated spectate command: {spectate_cmd}", "INFO")
+                self.console.log(f"[SPECTATE-011] Generated spectate command: {spectate_cmd}", "INFO")
                 
                 # Tenter de lancer la commande
-                import subprocess
-                process = subprocess.Popen(spectate_cmd, shell=True)
-                self.console.log(f"Launched spectate with PID: {process.pid}", "INFO")
+                success = self.service.launch_spectate_client(spectate_cmd) 
+                
+                if not success:
+                    self.console.log("Trying alternative launch method...", "WARNING")
+                    success = self.service.launch_spectate_client_alternative(spectate_cmd)
+                
+                if success:
+                    self.console.log("Spectate command successfully executed", "SUCCESS")
+                else:
+                    self.console.log("All launch methods failed", "ERROR")
                 
             except Exception as e:
-                self.console.log(f"Error during spectate test: {str(e)}", "ERROR")
+                self.console.log(f"[SPECTATE-ERR5] Error during spectate test: {str(e)}", "ERROR")
+                import traceback
+                self.console.log(f"[SPECTATE-TRACE] {traceback.format_exc()}", "ERROR")
             finally:
                 # Réactiver le bouton
                 if sender:
                     sender.setText(original_text)
                     sender.setEnabled(True)
+                    self.console.log("[SPECTATE-014] Re-enabled UI button", "DEBUG")
+        
         except Exception as e:
-            self.console.log(f"Erreur générale dans test_spectate: {str(e)}", "ERROR")
-            sender = self.sender()
+            self.console.log(f"[SPECTATE-CRIT] Critical error in test_spectate: {str(e)}", "ERROR")
+            import traceback
+            self.console.log(f"[SPECTATE-TRACE2] {traceback.format_exc()}", "ERROR")
+            
+            # Ensure button is re-enabled
             if sender:
+                sender.setText(original_text)
                 sender.setEnabled(True)
 
     def test_stream(self):
         """Test the stream functionality without starting the service"""
+        self.console.log("[STREAM-001] Starting stream test", "INFO")
+        
+        sender = None
+        original_text = "Test Stream"
+        
         try:
             # Récupérer le nom du joueur sélectionné ou choisir le premier joueur actif de la liste
             player_name = None
+            active_count = 0
+            
+            self.console.log("[STREAM-002] Searching for active players", "INFO")
             for row in range(self.players_table.rowCount()):
-                if self.players_table.item(row, 4).text() == "Active":
-                    player_name = self.players_table.item(row, 0).text()
-                    break
+                try:
+                    cell_widget = self.players_table.cellWidget(row, 4)
+                    if cell_widget:
+                        is_active = "Actif" in cell_widget.findChild(QPushButton).text()
+                        if is_active:
+                            active_count += 1
+                            if player_name is None:
+                                player_name = self.players_table.item(row, 0).text()
+                                self.console.log(f"[STREAM-003] Found active player: {player_name}", "INFO")
+                except Exception as e:
+                    self.console.log(f"[STREAM-ERR1] Error checking row {row}: {str(e)}", "ERROR")
+            
+            self.console.log(f"[STREAM-004] Found {active_count} active player(s)", "INFO")
             
             if player_name is None:
+                self.console.log("[STREAM-005] No active players found", "WARNING")
                 QMessageBox.warning(self, "No Active Players", "Please activate at least one player to test stream.")
                 return
-            
-            self.console.log(f"Testing stream for player: {player_name}", "INFO")
             
             # Désactiver le bouton pendant le test
             sender = self.sender()
@@ -1474,23 +1537,36 @@ class MainWindow(QMainWindow):
                 original_text = sender.text()
                 sender.setText("Testing...")
                 sender.setEnabled(False)
+                self.console.log("[STREAM-006] Disabled UI button during test", "DEBUG")
             
             # Effectuer le test de stream
             try:
                 # Vérifier si OBS est configuré
                 if not self.config.obs_password or not self.config.obs_address:
-                    self.console.log("OBS settings are not configured", "ERROR")
-                    if sender:
-                        sender.setText(original_text)
-                        sender.setEnabled(True)
+                    self.console.log("[STREAM-ERR2] OBS settings are not configured", "ERROR")
                     return
                 
-                self.console.log(f"Connecting to OBS at {self.config.obs_address} with password", "INFO")
+                self.console.log(f"[STREAM-007] Connecting to OBS at {self.config.obs_address}", "INFO")
+                
+                # Vérifier que le joueur est dans la configuration
+                if player_name not in self.config.players:
+                    self.console.log(f"[STREAM-ERR3] Player {player_name} not found in config", "ERROR")
+                    return
+                
+                # Récupérer la configuration du joueur
+                player_config = self.config.players[player_name]
+                if not player_config.stream_key or not player_config.channel_name:
+                    self.console.log(f"[STREAM-ERR4] Stream key or channel name missing for {player_name}", "ERROR")
+                    return
+                
+                self.console.log(f"[STREAM-008] Player {player_name} has valid streaming config (channel: {player_config.channel_name})", "INFO")
                 
                 # Tentative d'envoi d'une commande test à OBS
                 import json
                 import websocket
                 import base64
+                import hashlib
+                from datetime import datetime
                 
                 # Fonction pour envoyer une commande
                 def send_command(ws, request_type, request_data=None):
@@ -1503,62 +1579,91 @@ class MainWindow(QMainWindow):
                         **request_data
                     }
                     
+                    self.console.log(f"[STREAM-009] Sending OBS command: {request_type}", "DEBUG")
                     ws.send(json.dumps(message))
                     response = json.loads(ws.recv())
                     return response
                 
                 # Créer la connexion WebSocket à OBS
-                ws = websocket.create_connection(self.config.obs_address)
+                try:
+                    self.console.log("[STREAM-010] Creating WebSocket connection to OBS", "INFO")
+                    ws = websocket.create_connection(self.config.obs_address)
+                except Exception as e:
+                    self.console.log(f"[STREAM-ERR5] Failed to connect to OBS: {str(e)}", "ERROR")
+                    return
                 
                 # Authentifier
-                auth_response = {
-                    "challenge": None,
-                    "salt": None
-                }
-                
-                # Récupérer le challenge et le salt
-                auth_response = send_command(ws, "GetAuthRequired")
-                
-                if auth_response.get("authRequired"):
-                    secret = base64.b64encode(hashlib.sha256(
-                        (self.config.obs_password + auth_response["salt"]).encode()
-                    ).digest())
+                try:
+                    self.console.log("[STREAM-011] Starting OBS authentication", "INFO")
+                    auth_response = send_command(ws, "GetAuthRequired")
                     
-                    auth_response = send_command(ws, "Authenticate", {
-                        "auth": base64.b64encode(
-                            hashlib.sha256(secret + auth_response["challenge"].encode()).digest()
-                        ).decode()
-                    })
-                    
-                    if auth_response.get("status") != "ok":
-                        self.console.log("Authentication failed with OBS", "ERROR")
-                        ws.close()
-                        if sender:
-                            sender.setText(original_text)
-                            sender.setEnabled(True)
-                        return
+                    if auth_response.get("authRequired"):
+                        self.console.log("[STREAM-012] Authentication required, generating auth hash", "INFO")
+                        
+                        try:
+                            secret = base64.b64encode(hashlib.sha256(
+                                (self.config.obs_password + auth_response["salt"]).encode()
+                            ).digest())
+                            
+                            auth_response = send_command(ws, "Authenticate", {
+                                "auth": base64.b64encode(
+                                    hashlib.sha256(secret + auth_response["challenge"].encode()).digest()
+                                ).decode()
+                            })
+                        except Exception as e:
+                            self.console.log(f"[STREAM-ERR6] Error generating auth hash: {str(e)}", "ERROR")
+                            ws.close()
+                            return
+                        
+                        if auth_response.get("status") != "ok":
+                            self.console.log(f"[STREAM-ERR7] Authentication failed: {auth_response.get('error')}", "ERROR")
+                            ws.close()
+                            return
+                        
+                        self.console.log("[STREAM-013] Authentication successful", "SUCCESS")
+                    else:
+                        self.console.log("[STREAM-014] No authentication required", "INFO")
+                except Exception as e:
+                    self.console.log(f"[STREAM-ERR8] Error during authentication: {str(e)}", "ERROR")
+                    ws.close()
+                    return
                 
                 # Test de récupération de la liste des scènes
-                scenes_response = send_command(ws, "GetSceneList")
-                if scenes_response.get("status") == "ok":
-                    scene_names = [scene["name"] for scene in scenes_response.get("scenes", [])]
-                    self.console.log(f"Found {len(scene_names)} scenes in OBS: {', '.join(scene_names[:3])}...", "INFO")
-                else:
-                    self.console.log("Failed to get scene list from OBS", "ERROR")
+                try:
+                    self.console.log("[STREAM-015] Requesting scene list", "INFO")
+                    scenes_response = send_command(ws, "GetSceneList")
+                    
+                    if scenes_response.get("status") == "ok":
+                        scene_names = [scene["name"] for scene in scenes_response.get("scenes", [])]
+                        self.console.log(f"[STREAM-016] Found {len(scene_names)} scenes in OBS", "SUCCESS")
+                        if scene_names:
+                            self.console.log(f"[STREAM-017] Sample scenes: {', '.join(scene_names[:3])}", "INFO")
+                    else:
+                        self.console.log(f"[STREAM-ERR9] Failed to get scene list: {scenes_response.get('error')}", "ERROR")
+                except Exception as e:
+                    self.console.log(f"[STREAM-ERR10] Error getting scene list: {str(e)}", "ERROR")
                 
                 # Fermer la connexion
                 ws.close()
-                self.console.log("OBS connection test completed successfully", "SUCCESS")
+                self.console.log("[STREAM-018] OBS connection test completed successfully", "SUCCESS")
                 
             except Exception as e:
-                self.console.log(f"Error during stream test: {str(e)}", "ERROR")
+                self.console.log(f"[STREAM-ERR11] Error during stream test: {str(e)}", "ERROR")
+                import traceback
+                self.console.log(f"[STREAM-TRACE] {traceback.format_exc()}", "ERROR")
             finally:
                 # Réactiver le bouton
                 if sender:
                     sender.setText(original_text)
                     sender.setEnabled(True)
+                    self.console.log("[STREAM-019] Re-enabled UI button", "DEBUG")
+                    
         except Exception as e:
-            self.console.log(f"Erreur générale dans test_stream: {str(e)}", "ERROR")
-            sender = self.sender()
+            self.console.log(f"[STREAM-CRIT] Critical error in test_stream: {str(e)}", "ERROR")
+            import traceback
+            self.console.log(f"[STREAM-TRACE2] {traceback.format_exc()}", "ERROR")
+            
+            # Ensure button is re-enabled
             if sender:
+                sender.setText(original_text)
                 sender.setEnabled(True)
