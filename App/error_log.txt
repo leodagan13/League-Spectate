@@ -1,0 +1,176 @@
+[2025-03-10 01:34:00] Service startup attempt
+[2025-03-10 01:34:04] Service startup attempt
+[2025-03-10 01:34:04] Service startup attempt
+[2025-03-10 01:36:23] Service startup attempt
+[2025-03-10 01:36:56] Service startup attempt
+[2025-03-10 01:37:54] Service startup attempt
+[2025-03-10 01:39:00] Service startup attempt
+[2025-03-10 01:39:36] Service startup attempt
+[2025-03-10 01:42:11] Service startup attempt
+[2025-03-10 01:45:10] Service startup attempt
+[2025-03-10 01:46:59] Service startup attempt
+[2025-03-10 01:50:01] Service startup attempt
+[2025-03-10 01:50:49] Service startup attempt
+[2025-03-10 01:51:13] Service startup attempt
+[2025-03-10 01:53:17] Service startup attempt
+[2025-03-10 01:54:25] Service startup attempt
+[2025-03-10 01:55:44] Service startup attempt
+[2025-03-10 01:56:19] Service startup attempt
+[2025-03-10 01:56:19] ERROR: Unhandled exception in main
+Exception: Expecting value: line 1 column 1 (char 0)
+Type: JSONDecodeError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 31, in main
+    config = Config()
+             ^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\config.py", line 68, in __init__
+    self.load()
+  File "c:\Users\romeo\league-spectate\App\src\config.py", line 138, in load
+    data = json.load(f)
+           ^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+
+
+[2025-03-10 01:56:23] Service startup attempt
+[2025-03-10 01:56:24] ERROR: Unhandled exception in main
+Exception: Expecting value: line 1 column 1 (char 0)
+Type: JSONDecodeError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 31, in main
+    config = Config()
+             ^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\config.py", line 68, in __init__
+    self.load()
+  File "c:\Users\romeo\league-spectate\App\src\config.py", line 138, in load
+    data = json.load(f)
+           ^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\romeo\miniconda3\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+
+
+[2025-03-10 01:57:57] Service startup attempt
+[2025-03-10 01:58:18] Service startup attempt
+[2025-03-10 02:10:19] Service startup attempt
+[2025-03-10 02:12:06] Service startup attempt
+[2025-03-10 02:13:58] Service startup attempt
+[2025-03-10 02:18:23] Service startup attempt
+[2025-03-10 02:20:19] Service startup attempt
+[2025-03-10 02:22:06] Service startup attempt
+[2025-03-10 02:22:07] ERROR: Unhandled exception in main
+Exception: 'PySide6.QtWidgets.QBoxLayout.addLayout' called with wrong argument types:
+  PySide6.QtWidgets.QBoxLayout.addLayout(QSplitter)
+Supported signatures:
+  PySide6.QtWidgets.QBoxLayout.addLayout(PySide6.QtWidgets.QLayout, /, Optional[int] = None)
+Type: TypeError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 38, in main
+    window = MainWindow(config, service)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 686, in __init__
+    self.setup_ui()
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 831, in setup_ui
+    main_layout.addLayout(splitter)
+
+
+[2025-03-10 02:23:41] Service startup attempt
+[2025-03-10 02:23:52] Service startup attempt
+[2025-03-10 02:23:52] Service startup attempt
+[2025-03-10 02:24:01] Service startup attempt
+[2025-03-10 02:24:01] Service startup attempt
+[2025-03-10 02:26:57] Service startup attempt
+[2025-03-10 02:29:05] Service startup attempt
+[2025-03-10 02:29:21] Service startup attempt
+[2025-03-10 02:34:06] Service startup attempt
+[2025-03-10 02:34:07] Service startup attempt
+[2025-03-10 02:34:07] Service startup attempt
+[2025-03-10 02:35:33] Service startup attempt
+[2025-03-10 02:38:35] Service startup attempt
+[2025-03-10 02:38:36] ERROR: Unhandled exception in main
+Exception: 'PySide6.QtWidgets.QBoxLayout.addLayout' called with wrong argument types:
+  PySide6.QtWidgets.QBoxLayout.addLayout(QSplitter)
+Supported signatures:
+  PySide6.QtWidgets.QBoxLayout.addLayout(PySide6.QtWidgets.QLayout, /, Optional[int] = None)
+Type: TypeError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 38, in main
+    window = MainWindow(config, service)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 696, in __init__
+    self.setup_ui()
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 931, in setup_ui
+    main_layout.addLayout(splitter)
+
+
+[2025-03-10 02:40:34] Service startup attempt
+[2025-03-10 02:40:48] Service startup attempt
+[2025-03-10 02:41:22] Service startup attempt
+[2025-03-10 02:44:16] Service startup attempt
+[2025-03-10 02:48:07] Service startup attempt
+[2025-03-10 02:48:15] Service startup attempt
+[2025-03-10 02:49:31] Service startup attempt
+[2025-03-10 02:50:39] Service startup attempt
+[2025-03-10 02:52:57] Service startup attempt
+[2025-03-10 02:52:58] ERROR: Unhandled exception in main
+Exception: name 'QPixmap' is not defined
+Type: NameError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 38, in main
+    window = MainWindow(config, service)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 671, in __init__
+    self.setup_ui()
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 724, in setup_ui
+    self.status_card = StatusCard()
+                       ^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 340, in __init__
+    self.set_active(False)
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 358, in set_active
+    self.status_icon.setPixmap(QPixmap(os.path.join("App", "assets", "icons", "inactive.svg")))
+                               ^^^^^^^
+
+
+[2025-03-10 02:53:03] Service startup attempt
+[2025-03-10 02:53:03] ERROR: Unhandled exception in main
+Exception: name 'QPixmap' is not defined
+Type: NameError
+Stack trace:
+  File "c:\Users\romeo\league-spectate\App\src\main.py", line 38, in main
+    window = MainWindow(config, service)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 671, in __init__
+    self.setup_ui()
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 724, in setup_ui
+    self.status_card = StatusCard()
+                       ^^^^^^^^^^^^
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 340, in __init__
+    self.set_active(False)
+  File "c:\Users\romeo\league-spectate\App\src\ui\main_window.py", line 358, in set_active
+    self.status_icon.setPixmap(QPixmap(os.path.join("App", "assets", "icons", "inactive.svg")))
+                               ^^^^^^^
+
+
+[2025-03-10 02:55:09] Service startup attempt
+[2025-03-10 02:56:54] Service startup attempt
+[2025-03-10 03:00:32] Service startup attempt
+[2025-03-10 03:00:40] Service startup attempt
+[2025-03-10 03:00:45] Service startup attempt
+[2025-03-10 03:04:10] Service startup attempt
