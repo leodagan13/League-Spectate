@@ -72,9 +72,11 @@ class OBSManager:
     def disconnect(self):
         """Disconnect from OBS websocket"""
         try:
-            if self.obs:
+            if self.obs and hasattr(self.obs, 'ws') and self.obs.ws is not None and self.obs.ws.connected:
                 self.obs.disconnect()
-                self.obs = None
                 self.log("Disconnected from OBS", "INFO")
+            else:
+                self.log("OBS wasn't connected, nothing to disconnect", "INFO")
+            self.obs = None
         except Exception as e:
             self.log(f"Error disconnecting from OBS: {str(e)}", "ERROR") 

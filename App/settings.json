@@ -243,6 +243,108 @@
                     "region": "euw1"
                 }
             }
+        },
+        "Mads numsegas#EUW": {
+            "summoner_id": "Mads numsegas#EUW",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "N3Ng3DyIQb20gYbon2nskZ7XSyQ_XXQYbIahadwHL8LqPoE",
+                    "accountId": "RNhZ9tAgXv16u3MCvYvRTx3K5gw18mh24MxzODEjOMS9gw",
+                    "puuid": "lvT9qts938Z60DrI-V9tp2G9iRpuwo55jHU563N_nuEO0a2xmzdeRkgx4lB63g_Gv9VdfU2J5WJ0cQ",
+                    "profileIconId": 4057,
+                    "revisionDate": 1741575153239,
+                    "summonerLevel": 502,
+                    "riotId": {
+                        "gameName": "Mads numsegas",
+                        "tagLine": "EUW",
+                        "puuid": "lvT9qts938Z60DrI-V9tp2G9iRpuwo55jHU563N_nuEO0a2xmzdeRkgx4lB63g_Gv9VdfU2J5WJ0cQ"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 975,
+                    "wins": 253,
+                    "losses": 213
+                },
+                "riotId": {
+                    "gameName": "Mads numsegas",
+                    "tagLine": "EUW",
+                    "region": "euw1"
+                }
+            }
+        },
+        "notZenx#EKKO": {
+            "summoner_id": "notZenx#EKKO",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "0BOONFrDxjNwrg03HLAoz98wvfhYH1Y7y6I8g1mIcz0fuSdR",
+                    "accountId": "4ZnT_rZ4ysLF3YcB3hcB6TVeRgUPke9UI4izWTT1VaDK0xqdO_znjxdt",
+                    "puuid": "FnKXwgF7Z6soal5_azXUUrfQskvL4coIJOhcTKMfHx-HHcxT7yEtPqp2jEo6qVtUgx2mkkxDsyFk1w",
+                    "profileIconId": 6773,
+                    "revisionDate": 1741575429180,
+                    "summonerLevel": 577,
+                    "riotId": {
+                        "gameName": "notZenx",
+                        "tagLine": "EKKO",
+                        "puuid": "FnKXwgF7Z6soal5_azXUUrfQskvL4coIJOhcTKMfHx-HHcxT7yEtPqp2jEo6qVtUgx2mkkxDsyFk1w"
+                    }
+                },
+                "stats": {
+                    "rank": "DIAMOND I",
+                    "lp": 4,
+                    "wins": 195,
+                    "losses": 166
+                },
+                "riotId": {
+                    "gameName": "notZenx",
+                    "tagLine": "EKKO",
+                    "region": "euw1"
+                }
+            }
+        },
+        "yitcpyp#EUW": {
+            "summoner_id": "yitcpyp#EUW",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": true,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "H3txX1o4npEI4NwjE6Vb4pRI6l23_uUcnbt8gaYpmTBitMQlxCrqIFRg_w",
+                    "accountId": "kryptuXhJUpIDf1VZfDOlkuwUNiU0tXUyc7VtOG5iUKX2zwB4m5MgidK",
+                    "puuid": "-bty_bHRvGF6qMH35z8Qlxh5HJlkX5w4fDpn0ZASZURn82mx-AtJRNPWkFCPgbSiEC8CA875U4ruEQ",
+                    "profileIconId": 3545,
+                    "revisionDate": 1741577601807,
+                    "summonerLevel": 49,
+                    "riotId": {
+                        "gameName": "yitcpyp",
+                        "tagLine": "EUW",
+                        "puuid": "-bty_bHRvGF6qMH35z8Qlxh5HJlkX5w4fDpn0ZASZURn82mx-AtJRNPWkFCPgbSiEC8CA875U4ruEQ"
+                    }
+                },
+                "stats": {
+                    "rank": "EMERALD II",
+                    "lp": 15,
+                    "wins": 53,
+                    "losses": 14
+                },
+                "riotId": {
+                    "gameName": "yitcpyp",
+                    "tagLine": "EUW",
+                    "region": "euw1"
+                }
+            }
         }
     }
 }

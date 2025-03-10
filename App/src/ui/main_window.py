@@ -266,17 +266,10 @@ class StatusCard(QFrame):
     def __init__(self):
         super().__init__()
         self.setObjectName("status_card")
-        self.setMinimumHeight(90)  # Légèrement plus grand
-        self.setMaximumHeight(90)  # Légèrement plus grand
+        self.setMinimumHeight(60)
+        self.setMaximumHeight(60)
         
-        # Créer un effet d'ombre
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(15)
-        shadow.setColor(QColor(0, 0, 0, 60))
-        shadow.setOffset(0, 3)
-        self.setGraphicsEffect(shadow)
-        
-        # Style de base avec des bords arrondis et une bordure légère
+        # Style avec des bords arrondis sur tous les côtés pour l'effet de puce
         self.setStyleSheet("""
             #status_card {
                 background-color: #ffffff;
@@ -286,24 +279,23 @@ class StatusCard(QFrame):
         """)
         
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(15, 10, 15, 10)  # Marges internes un peu plus grandes
+        layout.setContentsMargins(12, 4, 12, 4)
         layout.setSpacing(12)
         
         # Info panel - left side
         info_layout = QVBoxLayout()
-        info_layout.setSpacing(6)  # Un peu plus d'espacement
+        info_layout.setSpacing(4)  # Réduire l'espacement
         
         # Title with status icon
         title_layout = QHBoxLayout()
-        title_layout.setSpacing(10)
-        title_layout.setContentsMargins(0, 0, 0, 0)
+        title_layout.setSpacing(8)
         
         self.status_icon = QLabel()
-        self.status_icon.setFixedSize(16, 16)  # Légèrement plus grand
+        self.status_icon.setFixedSize(12, 12)  # Réduire la taille de l'icône
         title_layout.addWidget(self.status_icon)
         
         self.title_label = QLabel("League Spectate")
-        self.title_label.setStyleSheet("font-size: 16px; font-weight: bold;")
+        self.title_label.setStyleSheet("font-size: 14px; font-weight: bold;")
         title_layout.addWidget(self.title_label)
         title_layout.addStretch()
         
@@ -311,7 +303,7 @@ class StatusCard(QFrame):
         
         # Status message
         self.status_msg = QLabel("Service not running")
-        self.status_msg.setStyleSheet("color: #4b5563; font-size: 13px;")
+        self.status_msg.setStyleSheet("color: #4b5563; font-size: 12px;")
         info_layout.addWidget(self.status_msg)
         
         # Add info to main layout
@@ -321,14 +313,14 @@ class StatusCard(QFrame):
         self.streaming_info = QWidget()
         streaming_layout = QVBoxLayout(self.streaming_info)
         streaming_layout.setContentsMargins(0, 0, 0, 0)
-        streaming_layout.setSpacing(6)  # Un peu plus d'espacement
+        streaming_layout.setSpacing(4)  # Réduire l'espacement
         
         self.stream_title = QLabel("Currently streaming:")
-        self.stream_title.setStyleSheet("font-size: 13px; color: #4b5563;")
+        self.stream_title.setStyleSheet("font-size: 12px; color: #4b5563;")
         streaming_layout.addWidget(self.stream_title)
         
         self.stream_player = QLabel("No player")
-        self.stream_player.setStyleSheet("font-weight: bold; font-size: 15px;")
+        self.stream_player.setStyleSheet("font-weight: bold; font-size: 14px;")
         streaming_layout.addWidget(self.stream_player)
         
         # Hide by default
@@ -342,14 +334,14 @@ class StatusCard(QFrame):
 
     def _create_status_icon(self, color):
         """Crée une icône circulaire de couleur"""
-        pixmap = QPixmap(16, 16)  # Plus grande
+        pixmap = QPixmap(12, 12)
         pixmap.fill(Qt.transparent)
         
         painter = QPainter(pixmap)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setBrush(QColor(color))
         painter.setPen(Qt.NoPen)
-        painter.drawEllipse(2, 2, 12, 12)  # Ajusté pour la taille plus grande
+        painter.drawEllipse(1, 1, 10, 10)
         painter.end()
         
         return pixmap
@@ -528,7 +520,7 @@ class AddPlayerDialog(QDialog):
         
         self.priority_input = QSpinBox()
         self.priority_input.setRange(0, 100)
-        
+          
         # Add region dropdown
         self.region_input = QComboBox()
         self.region_input.addItems([
@@ -563,6 +555,7 @@ class AddPlayerDialog(QDialog):
 
         save_btn.clicked.connect(self.accept)
         cancel_btn.clicked.connect(self.reject)
+        
 
     def get_values(self):
         return {
@@ -685,6 +678,7 @@ class MainWindow(QMainWindow):
         self.is_running = False
         self.setup_ui()
         
+        self.update_players_table()
         # Update timer for status
         self.status_timer = QTimer()
         self.status_timer.timeout.connect(self.update_status)
@@ -727,64 +721,100 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         
         main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(12, 12, 12, 12)  # Légèrement plus grandes
-        main_layout.setSpacing(10)  # Légèrement plus grand
+        main_layout.setContentsMargins(10, 3, 10, 5)  # Réduire légèrement le padding supérieur (5 -> 3)
+        main_layout.setSpacing(2)
         
-        # Barre du haut avec Status card et boutons de réglages
-        top_bar = QHBoxLayout()
-        top_bar.setContentsMargins(0, 0, 0, 0)
-        top_bar.setSpacing(12)  # Augmenter l'espacement
+        # Section avec la StatusCard à gauche et les boutons à droite
+        top_section = QWidget()
+        top_section.setContentsMargins(0, 0, 0, 0)
+        top_section_layout = QHBoxLayout(top_section)
+        top_section_layout.setContentsMargins(0, 0, 0, 0)
+        top_section_layout.setSpacing(10)
         
-        # Status card (à gauche)
+        # StatusCard positionnée en haut à gauche comme une puce
         self.status_card = StatusCard()
-        top_bar.addWidget(self.status_card, 4)  # Réduit la part proportionnelle
+        # Limiter la largeur pour qu'elle ne prenne pas tout l'espace
+        self.status_card.setMaximumWidth(300)
+        top_section_layout.addWidget(self.status_card, 0, Qt.AlignLeft | Qt.AlignVCenter)  # Aligner verticalement au centre
         
-        # Container pour les boutons de droite (disposés verticalement)
-        right_buttons = QWidget()
-        right_buttons.setMinimumWidth(60)  # Garantir une largeur minimale plus grande
-        right_buttons_layout = QVBoxLayout(right_buttons)
-        right_buttons_layout.setContentsMargins(0, 0, 0, 0)
-        right_buttons_layout.setSpacing(16)  # Plus d'espacement entre boutons
+        # Ajouter un espace extensible pour séparer StatusCard des boutons
+        top_section_layout.addStretch(1)
         
-        # Ajouter un espace en haut pour positionner correctement les boutons
-        right_buttons_layout.addSpacing(10)
+        # Créer un conteneur pour les boutons bleus afin de les centrer ensemble
+        blue_buttons_container = QWidget()
+        blue_buttons_layout = QHBoxLayout(blue_buttons_container)
+        blue_buttons_layout.setContentsMargins(0, 0, 0, 0)
+        blue_buttons_layout.setSpacing(10)
+        blue_buttons_layout.setAlignment(Qt.AlignCenter)  # Centrer les boutons dans le conteneur
+        
+        # Service toggle button
+        self.toggle_button = ModernButton("Start Service", "play")
+        self.toggle_button.clicked.connect(self.toggle_service)
+        blue_buttons_layout.addWidget(self.toggle_button)
+        
+        # Bouton de sauvegarde explicite
+        self.save_button = ModernButton("Sauvegarder", is_destructive=False)
+        self.save_button.setToolTip("Sauvegarder tous les changements")
+        self.save_button.clicked.connect(self.save_config)
+        blue_buttons_layout.addWidget(self.save_button)
+        
+        # Add player button
+        add_player_button = ModernButton("Ajouter un joueur", "plus")
+        add_player_button.clicked.connect(self.add_player)
+        blue_buttons_layout.addWidget(add_player_button)
+        
+        # Ajouter le conteneur des boutons bleus au layout principal
+        top_section_layout.addWidget(blue_buttons_container, 4, Qt.AlignCenter | Qt.AlignVCenter)  # Aligner verticalement au centre
+        
+        # Ajouter un espace extensible après les boutons bleus
+        top_section_layout.addStretch(1)
+        
+        # Petit espacement avant les boutons d'outils
+        top_section_layout.addSpacing(5)
         
         # Settings button
         self.settings_button = QToolButton()
         self.settings_button.setIcon(QIcon(os.path.join("App", "assets", "icons", "settings.svg")))
-        self.settings_button.setIconSize(QSize(24, 24))  # Icônes légèrement plus grandes
+        self.settings_button.setIconSize(QSize(22, 22))
         self.settings_button.setToolTip("OBS Settings")
-        self.settings_button.setFixedSize(46, 46)  # Boutons légèrement plus grands
+        self.settings_button.setFixedSize(40, 40)
         self.settings_button.setStyleSheet("""
             QToolButton {
                 background-color: #f3f4f6;
                 border: none;
-                border-radius: 8px;
-                padding: 10px;
+                border-radius: 6px;
+                padding: 8px;
             }
             QToolButton:hover {
                 background-color: #e5e7eb;
             }
         """)
         self.settings_button.clicked.connect(self.show_obs_settings)
-        right_buttons_layout.addWidget(self.settings_button, 0, Qt.AlignCenter)  # Centrer horizontalement
+        top_section_layout.addWidget(self.settings_button, 0, Qt.AlignVCenter)  # Aligner verticalement au centre
         
-        # Test menu button (dropdown)
+        # Test menu button (dropdown) - Modifier pour clarifier qu'il s'agit d'un menu déroulant
         self.test_menu_button = QToolButton()
-        self.test_menu_button.setIcon(QIcon(os.path.join("App", "assets", "icons", "play.svg")))  # Ajouter une icône
-        self.test_menu_button.setIconSize(QSize(24, 24))
-        self.test_menu_button.setToolTip("Test spectate or streaming features")
-        self.test_menu_button.setFixedSize(46, 46)
+        # Utiliser une icône différente ou générer une icône personnalisée pour indiquer un menu
+        self.test_menu_button.setText("▼")  # Ajouter un triangle vers le bas pour indiquer un menu déroulant
+        self.test_menu_button.setIconSize(QSize(16, 16))
+        self.test_menu_button.setToolTip("Menu de test (spectate/streaming)")
+        self.test_menu_button.setFixedSize(40, 40)
         self.test_menu_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.test_menu_button.setStyleSheet("""
             QToolButton {
                 background-color: #f3f4f6;
                 border: none;
-                border-radius: 8px;
-                padding: 10px;
+                border-radius: 6px;
+                padding: 8px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #4b5563;
             }
             QToolButton:hover {
                 background-color: #e5e7eb;
+            }
+            QToolButton::menu-indicator { 
+                image: none;  /* Cacher l'indicateur de menu par défaut */
             }
         """)
         
@@ -799,46 +829,19 @@ class MainWindow(QMainWindow):
         test_menu.addAction(test_stream_action)
         
         self.test_menu_button.setMenu(test_menu)
-        right_buttons_layout.addWidget(self.test_menu_button, 0, Qt.AlignCenter)  # Centrer horizontalement
+        top_section_layout.addWidget(self.test_menu_button, 0, Qt.AlignVCenter)  # Aligner verticalement au centre
         
-        # Ajouter un spacer pour pousser les boutons vers le haut
-        right_buttons_layout.addStretch()
+        # Ajouter la section supérieure au layout principal
+        main_layout.addWidget(top_section)
         
-        top_bar.addWidget(right_buttons, 1)  # Donner plus d'espace proportionnel aux boutons
+        # Ajouter une marge supplémentaire sous la puce League Spectate
+        main_layout.addSpacing(10)  # 10 pixels de marge supplémentaire
         
-        main_layout.addLayout(top_bar)
-        
-        # Section principale avec boutons de contrôle et table des joueurs
+        # Section principale avec la table des joueurs (sans les boutons de contrôle)
         main_section = QWidget()
         main_section_layout = QVBoxLayout(main_section)
         main_section_layout.setContentsMargins(0, 0, 0, 0)
-        main_section_layout.setSpacing(8)
-        
-        # Barre de boutons de contrôle
-        control_bar = QHBoxLayout()
-        control_bar.setContentsMargins(0, 0, 0, 0)
-        control_bar.setSpacing(8)
-        
-        # Service toggle button
-        self.toggle_button = ModernButton("Start Service", "play")
-        self.toggle_button.clicked.connect(self.toggle_service)
-        control_bar.addWidget(self.toggle_button)
-        
-        # Bouton de sauvegarde explicite
-        self.save_button = ModernButton("Sauvegarder", is_destructive=False)
-        self.save_button.setToolTip("Sauvegarder tous les changements")
-        self.save_button.clicked.connect(self.save_config)
-        control_bar.addWidget(self.save_button)
-        
-        # Add player button
-        add_player_button = ModernButton("Ajouter un joueur", "plus")
-        add_player_button.clicked.connect(self.add_player)
-        control_bar.addWidget(add_player_button)
-        
-        # Ajouter un espace flexible à droite
-        control_bar.addStretch()
-        
-        main_section_layout.addLayout(control_bar)
+        main_section_layout.setSpacing(4)
         
         # Players table container
         players_container = QWidget()
@@ -857,14 +860,14 @@ class MainWindow(QMainWindow):
         # Console section
         self.console = ModernConsole()
         
-        # Create a splitter between the players table and console
+        # Créer un splitter entre les joueurs et la console
         splitter = QSplitter(Qt.Orientation.Vertical)
         splitter.setHandleWidth(1)
         splitter.addWidget(main_section)
         splitter.addWidget(self.console)
-        splitter.setSizes([500, 300])  # Initial sizes
+        splitter.setSizes([600, 200])
         
-        # Add the splitter to the main layout
+        # Ajouter le splitter au layout de contenu
         main_layout.addWidget(splitter)
         
         # Set up the service - inject the logger
@@ -889,21 +892,68 @@ class MainWindow(QMainWindow):
             self.console.log(f"Exception lors de la sauvegarde: {str(e)}", "ERROR")
 
     def update_players_table(self, save=True):
-        """Update the players table with current configuration"""
+        """Met à jour le tableau des joueurs et sauvegarde si nécessaire"""
         try:
-            # Essayer de déconnecter le signal, mais ignorer l'erreur si échoue
-            try:
-                self.players_table.cellClicked.disconnect()
-            except:
-                pass  # Ignorer si le signal n'était pas connecté
+            print(f"Mise à jour de la table des joueurs. Nombre de joueurs: {len(self.config.players)}")
+            # Pour chaque joueur, afficher le nom pour déboguer
+            for name in self.config.players:
+                print(f"Joueur trouvé: {name}")
             
-            # Clear the table
-            self.players_table.setRowCount(0)
+            if save:
+                try:
+                    self.config.save()
+                except Exception as e:
+                    self.console.log(f"Erreur lors de la sauvegarde de la configuration: {str(e)}", "ERROR")
+        
+            # Déconnecter les signaux existants pour éviter les doubles connexions
+            # Utiliser une méthode encore plus sécurisée - ne pas déconnecter tous les signaux
+            # mais plutôt recréer le widget entièrement
+            old_table = self.players_table
+            
+            # Créer une nouvelle table qui remplace l'ancienne
+            self.players_table = ModernTableWidget()
+            self.players_table.setColumnCount(6)
+            self.players_table.setHorizontalHeaderLabels(["Joueur", "Région", "Chaîne", "Streaming", "Active", "Actions"])
+            
+            # Remplacer l'ancienne table dans le layout de manière sécurisée
+            try:
+                parent = old_table.parent()
+                if parent and parent.layout():
+                    players_layout = parent.layout()
+                    index = players_layout.indexOf(old_table)
+                    if index >= 0:
+                        players_layout.removeWidget(old_table)
+                        players_layout.insertWidget(index, self.players_table)
+                        # Supprimer l'ancienne table proprement
+                        old_table.deleteLater()
+                    else:
+                        self.console.log("Avertissement: Impossible de trouver l'index de la table dans le layout", "WARNING")
+                else:
+                    self.console.log("Avertissement: La table n'a pas de parent ou de layout valide", "WARNING")
+            except Exception as e:
+                self.console.log(f"Erreur lors du remplacement de la table: {str(e)}", "ERROR")
+                # En cas d'erreur, supprimer quand même l'ancienne table
+                old_table.deleteLater()
+            
+            # Définir des largeurs de colonnes fixes pour s'assurer que tout est visible
+            self.players_table.setColumnWidth(0, 180)  # Joueur
+            self.players_table.setColumnWidth(1, 80)   # Région
+            self.players_table.setColumnWidth(2, 150)  # Chaîne
+            self.players_table.setColumnWidth(3, 110)  # Streaming
+            self.players_table.setColumnWidth(4, 110)
+            self.players_table.setColumnWidth(5, 60)   # Actions - réduit à 60 pixels
+            
+            # Désactiver l'étirement automatique des colonnes
+            self.players_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
+            
+            # Optionnellement, étirer la dernière colonne
+            self.players_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
             
             sorted_players = sorted(list(self.config.players.items()))
             
             for row, (name, player) in enumerate(sorted_players):
                 self.players_table.insertRow(row)
+                self.players_table.setRowHeight(row, 50)  # Réduire la hauteur de ligne (60 -> 50)
                 
                 # Player name
                 name_item = QTableWidgetItem(name)
@@ -958,7 +1008,7 @@ class MainWindow(QMainWindow):
                 border_color = "#86efac" if player.enabled else "#d1d5db"  # vert clair ou gris clair
                 
                 active_btn = QPushButton(text)
-                active_btn.setFixedSize(100, 36)
+                active_btn.setFixedSize(90, 30)  # Taille augmentée
                 active_btn.setCursor(Qt.PointingHandCursor)
                 active_btn.setStyleSheet(f"""
                     QPushButton {{
@@ -995,6 +1045,7 @@ class MainWindow(QMainWindow):
                 
                 # Create edit and delete buttons directly
                 edit_btn = QPushButton("Edit")
+                edit_btn.setFixedSize(25, 25)
                 edit_btn.setCursor(Qt.PointingHandCursor)
                 edit_btn.setStyleSheet("""
                     QPushButton {
@@ -1013,6 +1064,7 @@ class MainWindow(QMainWindow):
                 """)
                 
                 delete_btn = QPushButton("Delete")
+                delete_btn.setFixedSize(25, 25)
                 delete_btn.setCursor(Qt.PointingHandCursor)
                 delete_btn.setStyleSheet("""
                     QPushButton {
@@ -1046,14 +1098,7 @@ class MainWindow(QMainWindow):
                 action_layout.addStretch()
                 
                 self.players_table.setCellWidget(row, 5, action_widget)
-            
-            # Sauvegarder d'abord si demandé
-            if save:
-                try:
-                    self.config.save()
-                except Exception as e:
-                    self.console.log(f"Erreur lors de la sauvegarde de la configuration: {str(e)}", "ERROR")
-            
+
         except Exception as e:
             self.console.log(f"Erreur lors de la mise à jour du tableau des joueurs: {str(e)}", "ERROR")
 
@@ -1086,12 +1131,54 @@ class MainWindow(QMainWindow):
                     # Update UI to reflect stopped state
                     self.status_card.set_active(False)
                     self.toggle_button.setText("Start Service")
+                    # Remettre le bouton en bleu normal (pas rouge)
+                    self.toggle_button.setStyleSheet("""
+                        QPushButton {
+                            background-color: #3b82f6;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            padding: 4px 10px;
+                            min-width: 80px;
+                        }
+                        QPushButton:hover {
+                            background-color: #2563eb;
+                        }
+                        QPushButton:pressed {
+                            background-color: #1d4ed8;
+                        }
+                        QPushButton:disabled {
+                            background-color: #d1d5db;
+                            color: #9ca3af;
+                        }
+                    """)
                     self.toggle_button.setEnabled(True)
                     self.console.log("Service stopped", "INFO")
                     
                 except Exception as e:
                     self.console.log(f"Failed to stop service: {str(e)}", "ERROR")
                     self.toggle_button.setText("Stop Service")
+                    # Garder le bouton rouge car le service est toujours actif
+                    self.toggle_button.setStyleSheet("""
+                        QPushButton {
+                            background-color: #ef4444;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            padding: 4px 10px;
+                            min-width: 80px;
+                        }
+                        QPushButton:hover {
+                            background-color: #dc2626;
+                        }
+                        QPushButton:pressed {
+                            background-color: #b91c1c;
+                        }
+                        QPushButton:disabled {
+                            background-color: #d1d5db;
+                            color: #9ca3af;
+                        }
+                    """)
                     self.toggle_button.setEnabled(True)
                     self.status_card.set_active(self.service.running)
             else:
@@ -1140,6 +1227,27 @@ class MainWindow(QMainWindow):
                             self.console.log("Service started successfully", "SUCCESS")
                             self.status_card.set_active(True)
                             self.toggle_button.setText("Stop Service")
+                            # Mettre le bouton en rouge quand le service est actif
+                            self.toggle_button.setStyleSheet("""
+                                QPushButton {
+                                    background-color: #ef4444;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 4px;
+                                    padding: 4px 10px;
+                                    min-width: 80px;
+                                }
+                                QPushButton:hover {
+                                    background-color: #dc2626;
+                                }
+                                QPushButton:pressed {
+                                    background-color: #b91c1c;
+                                }
+                                QPushButton:disabled {
+                                    background-color: #d1d5db;
+                                    color: #9ca3af;
+                                }
+                            """)
                         else:
                             self.console.log("Failed to start service", "ERROR")
                             self.status_card.set_active(False)

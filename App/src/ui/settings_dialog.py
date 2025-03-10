@@ -104,6 +104,7 @@ class SettingsDialog(QDialog):
 
     def test_connection(self):
         from obswebsocket import obsws
+        ws = None
         try:
             ws = obsws(
                 self.obs_host_input.text(),
@@ -111,10 +112,16 @@ class SettingsDialog(QDialog):
                 self.obs_password_input.text()
             )
             ws.connect()
-            ws.disconnect()
             QMessageBox.information(self, "Success", "Successfully connected to OBS!")
         except Exception as e:
             QMessageBox.warning(self, "Connection Failed", f"Could not connect to OBS: {str(e)}")
+        finally:
+            # S'assurer que la déconnexion est toujours tentée si ws existe et est connecté
+            if ws and hasattr(ws, 'ws') and ws.ws is not None and ws.ws.connected:
+                try:
+                    ws.disconnect()
+                except:
+                    pass  # Ignorer les erreurs de déconnexion ici
 
     def test_api_key(self):
         """Test if the Riot API key is valid"""
