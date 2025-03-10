@@ -280,3 +280,9 @@ Stack trace:
 [2025-03-10 13:24:00] Service startup attempt
 [2025-03-10 13:30:16] Service startup attempt
 [2025-03-10 13:30:27] Service startup attempt
+[2025-03-10 13:34:51] Service startup attempt
+[2025-03-10 13:34:53] Service startup attempt
+[2025-03-10 13:40:04] Service startup attempt
+[2025-03-10 13:40:06] Service startup attempt
+[2025-03-10 13:40:16] Service startup attempt
+[2025-03-10 13:40:18] Service startup attempt
