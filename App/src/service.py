@@ -480,121 +480,153 @@ class Service(QObject):
             return False
 
     def launch_spectate_client(self, spectate_cmd):
-        """Tente de lancer le client spectateur de League of Legends avec une approche simplifiée"""
-        
+        """
+        Tente de lancer le client spectateur de League of Legends
+        Utilise exactement la même méthode que le fichier .bat qui fonctionne
+        """
         try:
-            self.log(f"Attempting to launch League with command: {spectate_cmd}", "INFO")
-            
-            # Vérifications de base
-            if not spectate_cmd or not isinstance(spectate_cmd, list) or len(spectate_cmd) < 2:
-                self.log(f"Invalid spectate command: {spectate_cmd}", "ERROR")
+            if not spectate_cmd:
+                self.log("Empty spectate command provided", "ERROR")
                 return False
             
-            exe_path = spectate_cmd[0]
-            args = spectate_cmd[1]
+            self.log(f"Launching spectator with command: {spectate_cmd}", "INFO")
             
-            if not os.path.exists(exe_path):
-                self.log(f"Executable not found: {exe_path}", "ERROR")
-                return False
+            # Utiliser la méthode qui fonctionne - shell=True
+            # Note importante: Ne pas capturer stdout/stderr avec PIPE car cela peut bloquer le processus
+            process = subprocess.Popen(
+                spectate_cmd,
+                shell=True,
+                creationflags=subprocess.CREATE_NO_WINDOW
+            )
             
-            # Obtenir le répertoire de travail (dossier contenant l'exécutable)
-            work_dir = os.path.dirname(exe_path)
-            self.log(f"Working directory: {work_dir}", "DEBUG")
+            # Vérifier si le processus s'est lancé correctement
+            self.log(f"Process started with PID: {process.pid}", "SUCCESS")
             
-            # MÉTHODE DIRECTE: Utiliser subprocess.Popen avec les arguments sous forme de liste
+            # Attendre un court instant pour voir si le processus démarre bien
+            # Le processus parent terminera rapidement car "start" lance un nouveau processus
+            time.sleep(2)
+            
+            # Vérifier si League of Legends.exe est en cours d'exécution
+            lol_running = False
             try:
-                self.log("Launching game using direct subprocess method", "INFO")
-                # Construire la commande complète en une seule liste
-                cmd_list = [exe_path, args]
-                
-                self.log(f"Command list: {cmd_list}", "DEBUG")
-                
-                # Lancer le processus avec un shell=False pour plus de sécurité
-                process = subprocess.Popen(
-                    cmd_list,
-                    cwd=work_dir,
-                    shell=False,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    creationflags=subprocess.CREATE_NO_WINDOW
-                )
-                
-                # Vérifier si le processus s'est lancé correctement
-                self.log(f"Process launched with PID: {process.pid}", "SUCCESS")
-                
-                # Attendre un court instant pour voir si le processus survit
-                time.sleep(1)
-                
-                # Vérifier si le processus est toujours en cours d'exécution
-                if process.poll() is None:
-                    self.log("Process is still running after 1 second", "SUCCESS")
-                    return True
-                else:
-                    return_code = process.poll()
-                    stdout, stderr = process.communicate()
-                    self.log(f"Process exited immediately with code: {return_code}", "ERROR")
-                    self.log(f"STDOUT: {stdout.decode('utf-8', errors='ignore')}", "DEBUG")
-                    self.log(f"STDERR: {stderr.decode('utf-8', errors='ignore')}", "DEBUG")
-                    return False
-                    
+                for proc in psutil.process_iter(['pid', 'name']):
+                    if proc.info['name'] == "League of Legends.exe":
+                        lol_running = True
+                        self.log(f"League of Legends.exe is running with PID: {proc.info['pid']}", "SUCCESS")
+                        break
             except Exception as e:
-                self.log(f"Exception in direct subprocess method: {e}", "ERROR")
-                import traceback
-                self.log(f"Traceback: {traceback.format_exc()}", "ERROR")
-                
-            # Si nous arrivons ici, toutes les méthodes ont échoué
-            self.log("All launch methods failed", "ERROR")
-            return False
+                self.log(f"Error checking for League process: {e}", "WARNING")
             
+            if lol_running:
+                self.log("League of Legends client successfully launched", "SUCCESS")
+                return True
+            else:
+                # Le processus start peut s'être terminé, mais LoL peut encore être en train de démarrer
+                self.log("Start command completed, checking if League of Legends is starting...", "INFO")
+                
+                # Attendre un peu plus longtemps
+                time.sleep(5)
+                
+                # Vérifier à nouveau
+                for proc in psutil.process_iter(['pid', 'name']):
+                    if proc.info['name'] == "League of Legends.exe":
+                        lol_running = True
+                        self.log(f"League of Legends.exe is now running with PID: {proc.info['pid']}", "SUCCESS")
+                        return True
+                
+                # Si toujours pas en cours d'exécution, c'est un échec
+                self.log("League of Legends client failed to start", "ERROR")
+                return False
+                
         except Exception as e:
-            self.log(f"Fatal error in launch_spectate_client: {e}", "ERROR")
+            self.log(f"Error launching spectate client: {str(e)}", "ERROR")
             import traceback
             self.log(f"Traceback: {traceback.format_exc()}", "ERROR")
             return False
 
     def launch_spectate_client_alternative(self, spectate_cmd):
-        """Méthode alternative pour lancer le spectateur LoL"""
+        """
+        Méthode alternative pour lancer le spectateur LoL en créant un fichier BAT
+        similaire au fichier bat fonctionnel
+        """
         try:
-            # Vérifications de base
-            if not spectate_cmd or not isinstance(spectate_cmd, list) or len(spectate_cmd) < 2:
-                self.log(f"Invalid spectate command: {spectate_cmd}", "ERROR")
-                return False
+            self.log("Trying alternative BAT file method...", "INFO")
             
-            exe_path = spectate_cmd[0]
-            args = spectate_cmd[1]
-            work_dir = os.path.dirname(exe_path)
-            
-            # Méthode 1: Utiliser os.startfile (Windows uniquement)
+            # Créer un fichier batch temporaire
             if sys.platform == 'win32':
-                self.log("Trying to start game with os.startfile", "INFO")
-                # Créer un fichier batch temporaire
-                batch_path = os.path.join(work_dir, "spectate_temp.bat")
-                with open(batch_path, 'w') as f:
-                    f.write(f'cd /d "{work_dir}"\n')
-                    f.write(f'"{exe_path}" {args}\n')
+                import tempfile
+
+                # Extraire seulement la partie de la commande après le "cd /d"
+                # Format attendu: 'cd /d "CHEMIN" & COMMANDE'
+                if "&" in spectate_cmd:
+                    _, cmd_part = spectate_cmd.split("&", 1)
+                    cmd_part = cmd_part.strip()
+                else:
+                    cmd_part = spectate_cmd
+
+                # Créer le contenu du fichier batch
+                batch_content = "@echo off\n"
+                # Ajouter la partie cd (changement de répertoire)
+                if "cd /d" in spectate_cmd:
+                    parts = spectate_cmd.split("&", 1)
+                    batch_content += f"{parts[0].strip()}\n"
+                batch_content += f"{cmd_part}\n"
+                batch_content += "exit\n"
+                
+                # Écrire dans un fichier temporaire
+                batch_path = None
+                try:
+                    with tempfile.NamedTemporaryFile(suffix='.bat', delete=False, mode='w', encoding='utf-8') as batch_file:
+                        batch_path = batch_file.name
+                        batch_file.write(batch_content)
+                        
+                    self.log(f"Created temporary batch file at: {batch_path}", "INFO")
+                    self.log(f"Batch file content:\n{batch_content}", "DEBUG")
                     
-                self.log(f"Created batch file: {batch_path}", "DEBUG")
-                os.startfile(batch_path)
-                self.log("Process started with os.startfile", "SUCCESS")
-                return True
-            
-            # Méthode 2: Utiliser subprocess avec shell=True
-            self.log("Trying to start game with shell=True", "INFO")
-            cmd = f'"{exe_path}" {args}'
-            self.log(f"Shell command: {cmd}", "DEBUG")
-            
-            subprocess.Popen(
-                cmd, 
-                cwd=work_dir, 
-                shell=True,
-                creationflags=subprocess.CREATE_NO_WINDOW
-            )
-            
-            self.log("Process started with shell=True command", "SUCCESS")
-            return True
-            
+                    # Exécuter le fichier batch
+                    os.system(f'"{batch_path}"')  # Exécuter directement, pas avec start
+                    self.log("Batch file execution completed", "SUCCESS")
+                    
+                    # Attendre un peu pour que le processus démarre
+                    time.sleep(5)
+                    
+                    # Vérifier si League of Legends.exe est en cours d'exécution
+                    lol_running = False
+                    for proc in psutil.process_iter(['pid', 'name']):
+                        if proc.info['name'] == "League of Legends.exe":
+                            lol_running = True
+                            self.log(f"League of Legends.exe is running with PID: {proc.info['pid']}", "SUCCESS")
+                            break
+                    
+                    # Supprimer le fichier temporaire
+                    try:
+                        os.unlink(batch_path)
+                        self.log("Temporary batch file deleted", "DEBUG")
+                    except Exception as e:
+                        self.log(f"Failed to delete temporary batch file: {e}", "WARNING")
+                    
+                    return lol_running
+                    
+                except Exception as e:
+                    self.log(f"Error in batch file execution: {str(e)}", "ERROR")
+                    import traceback
+                    self.log(f"Traceback: {traceback.format_exc()}", "ERROR")
+                    
+                    # Tenter de supprimer le fichier temporaire en cas d'erreur
+                    if batch_path and os.path.exists(batch_path):
+                        try:
+                            os.unlink(batch_path)
+                        except:
+                            pass
+                            
+                    return False
+            else:
+                # Non Windows
+                self.log("Alternative method requires Windows", "WARNING")
+                return False
+                
         except Exception as e:
-            self.log(f"Error in alternative launch method: {str(e)}", "ERROR")
+            self.log(f"Critical error in alternative launch method: {str(e)}", "ERROR")
             import traceback
             self.log(f"Traceback: {traceback.format_exc()}", "ERROR")
             return False
@@ -672,6 +704,25 @@ class Service(QObject):
                 self.log(f"Error disconnecting from OBS: {str(e)}", "ERROR")
         
         self.log("Service shutdown complete", "INFO")
+
+    def kill_league_processes(self):
+        """Tue tous les processus League of Legends en cours d'exécution"""
+        killed = []
+        
+        try:
+            for proc in psutil.process_iter(['pid', 'name']):
+                try:
+                    # Vérifier si c'est un processus League
+                    if "league" in proc.info['name'].lower() or proc.info['name'] == "League of Legends.exe":
+                        proc.kill()
+                        killed.append(proc.info['name'])
+                        self.log(f"Killed process: {proc.info['name']} (PID: {proc.info['pid']})", "INFO")
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
+        except Exception as e:
+            self.log(f"Error killing League processes: {str(e)}", "ERROR")
+        
+        return killed
 
 class SafeGameCheckerThread(QThread):
     """Safe implementation of game checker thread"""
@@ -776,21 +827,28 @@ class SafeGameCheckerThread(QThread):
                                 self.service.log("League path is not correctly configured", "ERROR")
                                 continue
                                 
-                            # Create spectate command
-                            spectate_cmd = api.create_spectate_command(game_id, self.service.config.league_path)
+                            # Lorsque vous obtenez le game_info du joueur, assurez-vous d'extraire la clé d'encryption
+                            encryption_key = game_info.get('observers', {}).get('encryptionKey', game_id)
+                            
+                            # Créer la commande de spectate avec la clé d'encryption
+                            spectate_cmd = api.create_spectate_command(
+                                game_id=game_id, 
+                                league_path=self.service.config.league_path,
+                                encryption_key=encryption_key
+                            )
                             
                             # Start spectating
                             self.service.log(f"Starting spectate with command: {spectate_cmd}", "INFO")
                             
-                            try:
-                                # Launch the spectate client
-                                self.launch_spectate_signal.emit(spectate_cmd)
+                            # Launch directly without signal to avoid thread issues
+                            success = self.service.launch_spectate_client(spectate_cmd)
+                            
+                            if not success:
+                                self.service.log("Failed to launch spectator. Trying alternative method...", "WARNING")
+                                success = self.service.launch_spectate_client_alternative(spectate_cmd)
                                 
-                            except Exception as e:
-                                self.service.log(f"Error launching spectate command: {str(e)}", "ERROR")
-                                import traceback
-                                trace = traceback.format_exc()
-                                self.service.log(f"Stack trace: {trace}", "ERROR")
+                            if not success:
+                                self.service.log("All spectator launch methods failed", "ERROR")
                                 continue
                             
                             # Wait for game client to start

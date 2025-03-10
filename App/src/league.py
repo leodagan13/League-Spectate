@@ -221,14 +221,20 @@ class LeagueAPI:
             self.log_callback(f"Error getting active game: {error_msg}", "ERROR")
             return {}
 
-    def create_spectate_command(self, game_id: str, league_path: str):
+    def create_spectate_command(self, game_id: str, league_path: str, encryption_key: str = None):
         """
-        Crée la commande pour lancer le client spectateur de LoL - version simplifiée et robuste
+        Crée la commande pour lancer le client spectateur de LoL - version compatible
+        basée sur le fichier .bat fonctionnel
         """
         try:
             # Validation des entrées
             if not game_id:
                 raise ValueError("Game ID is required")
+            
+            # Utiliser game_id comme encryption_key si non fourni
+            if not encryption_key:
+                encryption_key = game_id
+                self.log_callback("No encryption key provided, using game_id as encryption key", "INFO")
             
             # Vérification du chemin League
             if not league_path:
@@ -236,45 +242,63 @@ class LeagueAPI:
             
             self.log_callback(f"Using League path from config: '{league_path}'", "DEBUG")
             
-            # Validation du chemin et recherche de l'exécutable
-            exe_path = ""
-            
-            # Si c'est un répertoire, chercher l'exe
-            if os.path.isdir(league_path):
-                self.log_callback(f"League path is a directory", "DEBUG")
-                potential_exe = os.path.join(league_path, "League of Legends.exe")
-                
-                if os.path.isfile(potential_exe):
-                    exe_path = potential_exe
-                else:
-                    raise ValueError(f"League of Legends.exe not found in: {league_path}")
-            
-            # Si c'est déjà l'exe
-            elif league_path.endswith("League of Legends.exe") and os.path.isfile(league_path):
-                exe_path = league_path
+            # Vérifier si c'est un chemin vers le dossier Game ou vers le répertoire parent
+            if os.path.basename(league_path).lower() == "game":
+                game_dir = league_path
+                parent_dir = os.path.dirname(league_path)
             else:
-                raise ValueError(f"Invalid League path: {league_path}")
+                # Vérifier si le dossier Game existe sous ce chemin
+                potential_game_dir = os.path.join(league_path, "Game")
+                if os.path.exists(potential_game_dir):
+                    game_dir = potential_game_dir
+                    parent_dir = league_path
+                else:
+                    # Utiliser le chemin tel quel
+                    game_dir = league_path
+                    parent_dir = os.path.dirname(league_path)
             
-            # Vérification finale
+            self.log_callback(f"Game directory: {game_dir}", "DEBUG")
+            self.log_callback(f"Parent directory: {parent_dir}", "DEBUG")
+            
+            # Vérifier que League of Legends.exe existe
+            exe_path = os.path.join(game_dir, "League of Legends.exe")
             if not os.path.exists(exe_path):
-                raise ValueError(f"Executable not found: {exe_path}")
+                raise ValueError(f"League of Legends.exe not found in: {game_dir}")
             
-            self.log_callback(f"Final executable path: {exe_path}", "DEBUG")
+            # Tenter de récupérer la locale depuis LeagueClientSettings.yaml
+            locale = "en_US"  # Valeur par défaut
+            try:
+                config_path = os.path.join(parent_dir, "Config", "LeagueClientSettings.yaml")
+                if os.path.exists(config_path):
+                    with open(config_path, 'r', encoding='utf-8') as f:
+                        for line in f:
+                            if "locale:" in line.lower():
+                                locale = line.split(":", 1)[1].strip().strip('"\'')
+                                break
+                    self.log_callback(f"Found locale in config: {locale}", "DEBUG")
+            except Exception as e:
+                self.log_callback(f"Error reading locale from config: {e}", "WARNING")
             
-            # Format des arguments pour le mode spectateur - format EXACT requis par LoL
-            region_code = self.region.lower().split('1')[0]  # ex: euw1 -> euw
-            spectator_host = f"spectator.{self.region}.lol.riotgames.com:80"
+            # Format exact qui fonctionne, basé sur le fichier .bat
+            region_prefix = self.region.split('1')[0].lower()
             
-            # Le format exact: "spectator spectator.euw1.lol.riotgames.com:80 GAMEID ENCRYPTIONKEY REGION"
-            # Pour observer, encryption_key = game_id
-            spectator_args = f"spectator {spectator_host} {game_id} {game_id} {region_code}"
+            # La commande cd /d DOIT être exécutée avant, car le jeu a besoin de se lancer depuis son dossier
+            cd_command = f'cd /d "{game_dir}"'
             
-            self.log_callback(f"Spectator arguments: '{spectator_args}'", "DEBUG")
+            # La commande exacte, copiée du fichier .bat qui fonctionne
+            lol_command = (
+                f'start "" "League of Legends.exe" '
+                f'"spectator spectator.{region_prefix}1.lol.pvp.net:8080 '
+                f'{encryption_key} {game_id} {region_prefix.upper()}1" '
+                f'-UseRads -GameBaseDir=.. "-Locale={locale}" -SkipBuild -EnableCrashpad=true -EnableLNP'
+            )
             
-            # Log la commande complète pour faciliter le débogage
-            self.log_callback(f"FINAL COMMAND: \"{exe_path}\" \"{spectator_args}\"", "INFO")
+            # Combiner les commandes
+            spectator_command = f'{cd_command} & {lol_command}'
             
-            return [exe_path, spectator_args]
+            self.log_callback(f"FINAL COMMAND: {spectator_command}", "INFO")
+            
+            return spectator_command
             
         except Exception as e:
             self.log_callback(f"Error in create_spectate_command: {str(e)}", "ERROR")

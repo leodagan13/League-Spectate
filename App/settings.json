@@ -352,14 +352,14 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": false,
+            "enabled": true,
             "summoner_info": {
                 "accountInfo": {
                     "id": "F1a7CY7xWyGFrfGgLc57fqxrilCXaqqrQZa6th8MKbI_8GA",
                     "accountId": "3r7xViwlm_GuLFn-ZS7sHqtbeWmsmSlS0bjrYUMDQLqKNw",
                     "puuid": "7fnvfUWl7RP_dZbIrtWBZYRwIZRPWfgYjd3L-ZmvsjccZAV9_MAzhJqhv8vQrlUqcpteWO_g48x2Hg",
                     "profileIconId": 5470,
-                    "revisionDate": 1741605521927,
+                    "revisionDate": 1741628359660,
                     "summonerLevel": 771,
                     "riotId": {
                         "gameName": "WinnersQ is Real",
@@ -369,9 +369,9 @@
                 },
                 "stats": {
                     "rank": "CHALLENGER I",
-                    "lp": 1157,
-                    "wins": 171,
-                    "losses": 144
+                    "lp": 1139,
+                    "wins": 172,
+                    "losses": 146
                 },
                 "riotId": {
                     "gameName": "WinnersQ is Real",
@@ -556,7 +556,7 @@
             "channel": "123",
             "region": "euw1",
             "priority": 0,
-            "enabled": true,
+            "enabled": false,
             "summoner_info": {
                 "accountInfo": {
                     "id": "K-NGOMSTVMGTNiJq0KHgxBoCBuv7BzQrlLpwgfpbvBPSRctV8CeShWn1GA",
@@ -580,6 +580,40 @@
                 "riotId": {
                     "gameName": "OLEG INSEC",
                     "tagLine": "OLEG",
+                    "region": "euw1"
+                }
+            }
+        },
+        "Ferret25#8725": {
+            "summoner_id": "Ferret25#8725",
+            "stream_key": "123",
+            "channel": "123",
+            "region": "euw1",
+            "priority": 0,
+            "enabled": false,
+            "summoner_info": {
+                "accountInfo": {
+                    "id": "gUbCg7GInszBJMoaL08YGT5mUraGIb1MI9WjzaN04aaORkRgGRumRvHvPw",
+                    "accountId": "Z9Ob7ZoqeA0U_NmRfbWKvlaq-5Ot4AJ7eidI5m7EWHLeRuPRIKf8kQpu",
+                    "puuid": "1geogytpl7S5z_ZXiRVgv1IzL5sPBcdnAZdzBgfhvpH9ObL1_mtalF5zN0yX25yJ5XRW3mKymtTFFQ",
+                    "profileIconId": 1298,
+                    "revisionDate": 1741627039844,
+                    "summonerLevel": 428,
+                    "riotId": {
+                        "gameName": "Ferret25",
+                        "tagLine": "8725",
+                        "puuid": "1geogytpl7S5z_ZXiRVgv1IzL5sPBcdnAZdzBgfhvpH9ObL1_mtalF5zN0yX25yJ5XRW3mKymtTFFQ"
+                    }
+                },
+                "stats": {
+                    "rank": "CHALLENGER I",
+                    "lp": 1372,
+                    "wins": 249,
+                    "losses": 203
+                },
+                "riotId": {
+                    "gameName": "Ferret25",
+                    "tagLine": "8725",
                     "region": "euw1"
                 }
             }
